@@ -1,0 +1,46 @@
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #f4f7f6;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #abd1c6;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-button {
+    background-color: #a4cbb4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+}
+
+.auth-button:hover {
+    background-color: #829a8b; /* Darker green on hover */
+  }
+
+.auth-label {
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #4a4a4a;
+    /* Adjust the color to match design */
+    display: block;
+    /* Make label block level for proper spacing */
+}
+

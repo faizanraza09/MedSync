@@ -1,0 +1,23 @@
+{
+  "name": "medsync",
+  "version": "1.0.0",
+  "description": "MedSync is a web application primarily aimed towards private general practitioners who seek to enhance doctor-patient interactions. Through a doctor- patient management system, we provide user-friendly interfaces for both the doctors and the patients. MedSync enables patients to smoothly schedule appointments by providing real-time availability updates. Patients could also receive medical prescriptions, access diagnostic reports, and even opt for remote consultations via the video chat option provided through the system; throughout their consultations, patients will stay informed with notifications. Furthermore, doctors who use our platform could utilize the power of ApiMedic to gain intelligent diagnostic support to aid them in making well-informed decisions quickly. The project encompasses both front-end and back-end solutions in collaboration with a database for storing patient and doctor information. The medical management system is set out to ensure that users stay ahead in the rapidly evolving digital healthcare landscape.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.3.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  }
+}
