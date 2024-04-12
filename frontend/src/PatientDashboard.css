@@ -1,0 +1,66 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.sidebar {
+    background-color: #004643;
+    color: white;
+    width: 250px;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.logo-section i {
+    font-size: 1.5em;
+    margin-right: 0.5em;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-menu li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nav-menu li i {
+    font-size: 1.2em;
+    margin-right: 0.5em;
+}
+
+.nav-menu li:hover {
+    background-color: #02635e;
+}
+
+.main-content {
+    flex-grow: 1;
+    background-color: #f4f7f6;
+    /* Light green background */
+    padding: 20px;
+}
+
+.main-content h1,
+.main-content h2 {
+    color: #004643;
+    /* Dark green text to match sidebar */
+}
+
+.appointments-section,
+.notifications-section {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}

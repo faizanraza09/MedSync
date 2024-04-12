@@ -20,7 +20,7 @@
 }
 
 .auth-button {
-    background-color: #a4cbb4;
+    background-color: #004643;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -32,15 +32,12 @@
 }
 
 .auth-button:hover {
-    background-color: #829a8b; /* Darker green on hover */
-  }
+    background-color: #02635e;
+}
 
 .auth-label {
     margin-bottom: 5px;
     font-size: 18px;
-    color: #4a4a4a;
-    /* Adjust the color to match design */
+    color: #004643;
     display: block;
-    /* Make label block level for proper spacing */
 }
-

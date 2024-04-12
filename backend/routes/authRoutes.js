@@ -5,7 +5,6 @@ const Doctor = require('../models/DoctorModel');
 const Patient = require('../models/PatientModel');
 const passport = require('passport');
 
-// Any additional imports you might need
 
 const router = express.Router();
 
