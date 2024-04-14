@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../Auth.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ function Register() {
     });
 
     const { email, password, role, firstName, lastName, phoneNumber, specialty, education } = formData;
+
+    const navigate = useNavigate();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -33,7 +36,7 @@ function Register() {
             };
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, user, config);
             console.log(response.data);
-            // Redirect to login or show success message here
+            navigate('/login');
         } catch (error) {
             console.error(error.response.data);
         }
