@@ -1,7 +1,14 @@
 import React from 'react';
 import '../PatientDashboard.css'; // Import the dashboard CSS
+import { useAuth } from '../contexts/AuthContext';
+
 
 const PatientDashboard = () => {
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+    };
     const appointments = [
         { doctor: 'Doctor Jenny', date: '11/01/24', time: '10:30pm', location: 'Online' },
     ];
@@ -30,6 +37,9 @@ const PatientDashboard = () => {
                         <li><i className="fas fa-cog"></i> Settings</li>
                     </ul>
                 </nav>
+                <div className="logout-section">
+                    <button onClick={handleLogout}>Logout</button>
+                </div>
             </aside>
             <div className="main-content">
                 <h1>Welcome Back!</h1>

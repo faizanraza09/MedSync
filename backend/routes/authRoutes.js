@@ -62,18 +62,21 @@ router.post('/register', async (req, res) => {
 
 // Login Handle
 router.post('/login', (req, res, next) => {
-
     passport.authenticate('local', (err, user, info) => {
-        if (err) throw err;
-        if (!user) res.status(400).json({ msg: 'No User Exists' });
-        else {
-            req.logIn(user, (err) => {
-                if (err) throw err;
-                res.status(200).json({ msg: 'Successfully Authenticated', user });
-                console.log(req.user);
-            });
-        }
+        if (err) return next(err);
+        if (!user) return res.status(400).json(info);
+        req.logIn(user, err => {
+            if (err) return next(err);
+            return res.status(200).json({ message: 'Logged in successfully', user });
+        });
     })(req, res, next);
 });
 
+
+router.get('/logout', (req, res) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.status(200).json({ message: 'Logged out successfully' });
+    });
+});
 module.exports = router;

@@ -1,13 +1,12 @@
 .dashboard-container {
     display: flex;
     height: 100vh;
-    font-family: 'Arial', sans-serif;
 }
 
 .sidebar {
     background-color: #004643;
     color: white;
-    width: 250px;
+    width: 200px;
     padding: 1em;
     box-sizing: border-box;
 }
@@ -47,7 +46,6 @@
 .main-content {
     flex-grow: 1;
     background-color: #f4f7f6;
-    /* Light green background */
     padding: 20px;
 }
 
@@ -63,4 +61,23 @@
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 8px;
+}
+
+.logout-section {
+    margin-top: auto; /* Pushes the logout button to the bottom */
+    padding: 20px; /* Padding for aesthetic spacing */
+}
+
+.logout-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: white; /* Red button for logout */
+    color: #004643;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-section button:hover {
+    background-color: grey; /* Darker shade on hover */
 }
