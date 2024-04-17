@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../Auth.css'; // Import the CSS file
+import '../styles/Auth.css';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        role: 'patient', // Default role
+        role: 'patient',
         firstName: '',
         lastName: '',
         phoneNumber: '',

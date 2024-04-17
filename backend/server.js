@@ -6,6 +6,8 @@ const MongoStore = require('connect-mongo');
 const passport = require('passport');
 require('./config/passportConfig.js')(passport); // Passport config
 require('dotenv').config();
+const doctorRoutes = require('./routes/doctorRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -39,5 +41,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 // Routes
 app.use('/api/users', require('./routes/authRoutes.js'));
+app.use('/api/doctors', doctorRoutes);
+app.use('/api/patients', patientRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

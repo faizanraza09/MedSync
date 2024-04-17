@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
         // Based on role, create either a Doctor or a Patient profile
         if (role === 'doctor') {
             const doctorProfile = new Doctor({
-                user: user._id, // Reference to the User model
+                userId: user._id, // Reference to the User model
                 firstName,
                 lastName,
                 phoneNumber,
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
             await doctorProfile.save();
         } else if (role === 'patient') {
             const patientProfile = new Patient({
-                user: user._id, // Reference to the User model
+                userId: user._id, // Reference to the User model
                 firstName,
                 lastName,
                 phoneNumber
@@ -74,7 +74,7 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/logout', (req, res) => {
-    req.logout(function(err) {
+    req.logout(function (err) {
         if (err) { return next(err); }
         res.status(200).json({ message: 'Logged out successfully' });
     });

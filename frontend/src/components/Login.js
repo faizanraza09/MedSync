@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import '../styles/Auth.css';
 
 
 const Login = () => {
@@ -11,8 +12,14 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            await auth.login(email, password);
-            navigate(`/dashboard`);
+            const response = await auth.login(email, password);
+            const user = response.user;
+            // Redirect based on user role
+            if (user.role === 'doctor') {
+                navigate('/doctor-dashboard');
+            } else if (user.role === 'patient') {
+                navigate('/patient-dashboard');
+            }
         } catch (error) {
             alert('Login failed: Incorrect username or password');
         }

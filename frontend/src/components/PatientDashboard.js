@@ -1,10 +1,11 @@
 import React from 'react';
-import '../PatientDashboard.css'; // Import the dashboard CSS
+import '../styles/Dashboard.css'; // Import the dashboard CSS
 import { useAuth } from '../contexts/AuthContext';
-
+import { useNavigate } from 'react-router-dom';
 
 const PatientDashboard = () => {
-    const { user, logout } = useAuth();
+    const { logout } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
@@ -29,7 +30,7 @@ const PatientDashboard = () => {
                 <nav className="nav-menu">
                     <ul>
                         <li><i className="fas fa-home"></i> Dashboard</li>
-                        <li><i className="fas fa-calendar-alt"></i> Appointments</li>
+                        <li onClick={() => navigate('/schedule-appointment')}><i className="fas fa-calendar-alt"></i> Appointments</li>
                         <li><i className="fas fa-envelope"></i> Messages</li>
                         <li><i className="fas fa-file-medical-alt"></i> Medical Records</li>
                         <li><i className="fas fa-user-md"></i> Doctors</li>
