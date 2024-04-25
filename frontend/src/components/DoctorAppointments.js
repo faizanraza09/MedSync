@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Dashboard.css';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import '../styles/DoctorAppointments.css';
 
-
-const DoctorDashboard = () => {
+const DoctorAppointments = () => {
+    const [appointments, setAppointments] = useState([]);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-    // const [appointments, setAppointments] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchAppointments = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:3001/api/patients/${user._id}/appointments`);
-    //             setAppointments(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching appointments:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/api/doctors/${user._id}/appointments`);
+                setAppointments(response.data);
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+            }
+        };
 
-    //     fetchAppointments();
-    // }, [user._id]);
+        fetchAppointments();
+    }, [user]);
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
 
-    const patientAppointments = [
-        { patientName: 'John Doe', date: '11/02/24', time: '11:00am', type: 'In-Person', condition: 'Routine Checkup' },
-    ];
-
-    const handleAppointmentClick = (appointment) => {
-        console.log("Viewing appointment:", appointment);
-    };
-
     return (
-        <div className="dashboard-container">
+        <div className="doctor-appointments-page">
             <aside className="sidebar">
                 <div className="logo-section">
                     <i className="fas fa-user-md"></i>
@@ -58,15 +49,14 @@ const DoctorDashboard = () => {
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             </aside>
-            <div className="main-content">
-                <h1>Welcome, Dr. {user.name}!</h1>
 
-                <div className="appointments-section">
-                    <h3>Today's Appointments</h3>
+            <div className="appointments-content-area">
+                <h1>Scheduled Appointments</h1>
+                <div>
                     <ul>
-                        {patientAppointments.map((appt, index) => (
-                            <li key={index} onClick={() => handleAppointmentClick(appt)}>
-                                {appt.patientName} - {appt.date} at {appt.time} - {appt.type}
+                        {appointments.map((appointment, index) => (
+                            <li key={index}>
+                                {appointment.date} - {appointment.time} with {appointment.patientName}
                             </li>
                         ))}
                     </ul>
@@ -76,4 +66,4 @@ const DoctorDashboard = () => {
     );
 };
 
-export default DoctorDashboard;
+export default DoctorAppointments;

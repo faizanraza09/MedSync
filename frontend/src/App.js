@@ -9,6 +9,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { useAuth } from './contexts/AuthContext'; 
 import ScheduleAppointment from './components/ScheduleAppointment';
 import SlotsManagement from './components/SlotsManagement';
+import PatientAppointments from './components/PatientAppointments';
 
 
 function App() {
@@ -38,6 +39,11 @@ function App() {
         <Route path="/manage-slots" element={
           <ProtectedRoute>
             <SlotsManagement />
+          </ProtectedRoute>
+        } />
+        <Route path="/appointments" element={
+          <ProtectedRoute>
+            <PatientAppointments />
           </ProtectedRoute>
         } />
         <Route path="/schedule-appointment" element={

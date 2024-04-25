@@ -1,38 +1,57 @@
 // DoctorSelection.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../styles/DoctorSelection.css';
 
-
-const DoctorSelection = ({ onDoctorSelect }) => {
+const DoctorSelection = ({ onDoctorSelect, user }) => {
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [referralCode, setReferralCode] = useState('');
+    const [specialtyFilter, setSpecialtyFilter] = useState('All Specialties');
+    const [specialties, setSpecialties] = useState([]);
 
+    // Wrap the fetch function in useCallback to memoize it
+    const fetchAvailableDoctors = useCallback(async () => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/patients/available-doctors/${user._id}`);
+            setDoctors(response.data);
+            const fetchedSpecialties = [...new Set(response.data.map(doc => doc.specialty))];
+            setSpecialties(['All Specialties', ...fetchedSpecialties]);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching doctors:', error);
+            setLoading(false);
+        }
+    }, [user._id]); // Dependency array includes user._id because it's used in the URL
 
     useEffect(() => {
-        const fetchDoctors = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/api/doctors/');
-                setDoctors(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching doctors:', error);
-                setLoading(false);
-            }
-        };
+        fetchAvailableDoctors();
+    }, [fetchAvailableDoctors]); 
 
-        fetchDoctors();
-    }, []);
+    const handleReferralCodeSubmit = async () => {
+        try {
+            const response = await axios.post(`http://localhost:3001/api/patients/add-doctor/${user._id}`, { referralCode });
+            console.log(response.data.message);
+            fetchAvailableDoctors(); // Refresh the list of available doctors
+        } catch (error) {
+            console.error('Error adding doctor:', error.response.data.message);
+        }
+    };
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
-    const filteredDoctors = doctors.filter(doctor =>
-        `${doctor.firstName} ${doctor.lastName}`.toLowerCase().includes(searchTerm) ||
-        doctor.specialty.toLowerCase().includes(searchTerm)
-    );
+    const handleSpecialtyChange = (event) => {
+        setSpecialtyFilter(event.target.value);
+    };
+
+    const filteredDoctors = doctors.filter(doctor => {
+        const nameMatch = `${doctor.firstName} ${doctor.lastName}`.toLowerCase().includes(searchTerm);
+        const specialtyMatch = specialtyFilter === 'All Specialties' || doctor.specialty === specialtyFilter;
+        return nameMatch && specialtyMatch;
+    });
 
     if (loading) return <p>Loading doctors...</p>;
 
@@ -44,6 +63,19 @@ const DoctorSelection = ({ onDoctorSelect }) => {
                 onChange={handleSearchChange}
                 className="search-bar"
             />
+            <select onChange={handleSpecialtyChange} className="specialty-filter">
+                {specialties.map(specialty => (
+                    <option key={specialty} value={specialty}>{specialty}</option>
+                ))}
+            </select>
+            <input
+                type="text"
+                placeholder="Enter referral code..."
+                value={referralCode}
+                onChange={(e) => setReferralCode(e.target.value)}
+                className="referral-code-input"
+            />
+            <button onClick={handleReferralCodeSubmit}>Add Doctor</button>
             {filteredDoctors.map((doctor) => (
                 <div key={doctor._id} className="doctor-card" onClick={() => onDoctorSelect(doctor)}>
                     <div>

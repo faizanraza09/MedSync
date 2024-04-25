@@ -1,11 +1,8 @@
-/* Overall Layout */
-.appointment-container {
+.patient-appointments-page {
     display: flex;
-    width: 100%;
     height: 100vh;
 }
 
-/* Sidebar Styling */
 .sidebar {
     background-color: #004643;
     /* Dark green background */
@@ -76,10 +73,50 @@
     background-color: #ff3b3b;
 }
 
-/* Content Area */
-.content-area {
+
+.appointments-content-area {
     flex-grow: 1;
-    padding: 20px;
     background-color: #f4f7f6;
-    overflow-y: auto;
+    padding: 20px;
+}
+
+.appointments-content-area h1 {
+    color: #004643;
+    margin-bottom: 20px;
+}
+
+.appointments-content-area ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.appointments-content-area li {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.appointments-content-area li:hover {
+    background-color: #e6f4f1;
+}
+
+.appointments-content-area button {
+    display: block;
+    width: max-content;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #02635e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.appointments-content-area button:hover {
+    background-color: #004643;
 }

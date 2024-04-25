@@ -78,6 +78,7 @@ const ScheduleAppointment = () => {
             reason: '',
         });
         setStep(1);
+        navigate('/appointments');
     };
 
     return (
@@ -90,7 +91,7 @@ const ScheduleAppointment = () => {
                 <nav className="nav-menu">
                     <ul>
                         <li onClick={() => navigate('/')}><i className="fas fa-home"></i> Dashboard</li>
-                        <li onClick={() => navigate('/schedule-appointment')}><i className="fas fa-calendar-alt"></i> Appointments</li>
+                        <li onClick={() => navigate('/appointments')}><i className="fas fa-calendar-alt"></i> Appointments</li>
                         <li><i className="fas fa-envelope"></i> Messages</li>
                         <li><i className="fas fa-file-medical-alt"></i> Medical Records</li>
                         <li><i className="fas fa-user-md"></i> Doctors</li>
@@ -103,7 +104,7 @@ const ScheduleAppointment = () => {
                 </div>
             </aside>
             <div className="content-area">
-                {step === 1 && <DoctorSelection onDoctorSelect={handleDoctorSelect} onGoBack={handleGoBack} />}
+                {step === 1 && <DoctorSelection user={user} onDoctorSelect={handleDoctorSelect} onGoBack={handleGoBack} />}
                 {step === 2 && (
                     <TimeSlotSelection
                         selectedDoctor={selectedDoctor}

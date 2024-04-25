@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
 import '../styles/Dashboard.css';
 
 const SlotsManagement = () => {
@@ -20,13 +19,16 @@ const SlotsManagement = () => {
         logout();
         navigate('/login');
     };
-    const fetchSlotsForDate = useCallback(async (selectedDate, changed = false) => {
+    
+    const fetchSlotsForDate = useCallback(async (selectedDate) => {
         try {
-            if (!changed) {
-                selectedDate = selectedDate.toLocaleDateString('en-CA')
-            }
-            const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${selectedDate}`);
-            setSlots(response.data.times || []);
+            const formattedDate = selectedDate.toLocaleDateString('en-CA');
+            const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${formattedDate}`);
+            const currentDateTime = new Date();
+            const filteredSlots = formattedDate === currentDateTime.toLocaleDateString('en-CA') ?
+                response.data.times.filter(time => new Date(`${formattedDate}T${time}:00`) > currentDateTime) :
+                response.data.times;
+            setSlots(filteredSlots || []);
         } catch (error) {
             console.error('Error fetching slots', error);
         }
@@ -71,8 +73,6 @@ const SlotsManagement = () => {
         }
     }, [userId, date, fetchSlotsForDate]);
 
-
-
     return (
         <div className="dashboard-container">
             <aside className="sidebar">
@@ -100,6 +100,7 @@ const SlotsManagement = () => {
                     <Calendar
                         onChange={onChange}
                         value={date}
+                        minDate={new Date()} // Prevent selecting past dates
                         maxDetail="month"
                     />
                 </div>

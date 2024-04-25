@@ -1,11 +1,11 @@
 // AppointmentConfirmation.js
 import React from 'react';
 
-const AppointmentConfirmation = ({ onConfirm }) => {
+const AppointmentConfirmation = ({ onGoBack }) => {
     return (
         <div className="appointment-confirmation">
             <h2>Booking Confirmed!</h2>
-            <button onClick={onConfirm} className="confirm-btn">Back to Dashboard</button>
+            <button onClick={onGoBack} className="confirm-btn">Back to Dashboard</button>
         </div>
     );
 };

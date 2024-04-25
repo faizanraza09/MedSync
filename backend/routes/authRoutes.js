@@ -4,26 +4,26 @@ const User = require('../models/UserModel');
 const Doctor = require('../models/DoctorModel');
 const Patient = require('../models/PatientModel');
 const passport = require('passport');
-
-
 const router = express.Router();
 
-// Registration route
-router.post('/register', async (req, res) => {
+const generateRefCode = (firstName, lastName) => {
+    const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+    const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a 4-digit random number
+    return `${initials}${randomNumber}`;
+};
 
+router.post('/register', async (req, res) => {
     const { email, password, role, firstName, lastName, phoneNumber, specialty, education } = req.body;
 
     try {
-        // Check if the user already exists
         let user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({ msg: "User already exists" });
         }
-        // Hash the password
+
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create the user
         user = new User({
             email,
             password: hashedPassword,
@@ -31,24 +31,25 @@ router.post('/register', async (req, res) => {
         });
         await user.save();
 
-        // Based on role, create either a Doctor or a Patient profile
         if (role === 'doctor') {
+            const refCode = generateRefCode(firstName, lastName);
             const doctorProfile = new Doctor({
-                userId: user._id, // Reference to the User model
+                userId: user._id,
                 firstName,
                 lastName,
                 phoneNumber,
                 specialty,
-                education
+                education,
+                refCode,
+                availableSlots: [] 
             });
             await doctorProfile.save();
-        } else if (role === 'patient') {
+        } else {
             const patientProfile = new Patient({
-                userId: user._id, // Reference to the User model
+                userId: user._id,
                 firstName,
                 lastName,
                 phoneNumber
-                // No specialty and education fields for patients
             });
             await patientProfile.save();
         }
@@ -72,11 +73,11 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-
 router.get('/logout', (req, res) => {
     req.logout(function (err) {
         if (err) { return next(err); }
         res.status(200).json({ message: 'Logged out successfully' });
     });
 });
+
 module.exports = router;

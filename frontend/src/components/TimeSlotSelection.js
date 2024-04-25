@@ -14,7 +14,16 @@ const TimeSlotSelection = ({ selectedDoctor, selectedDate, onDateChange, onTimeS
         try {
             const formattedDate = selectedDate.toLocaleDateString('en-CA');
             const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${formattedDate}`);
-            setSlots(response.data.times || []);
+            // Filter slots for the current date to exclude past times
+            const currentDateTime = new Date();
+            let filteredSlots = response.data.times || [];
+            if (formattedDate === currentDateTime.toLocaleDateString('en-CA')) {
+                filteredSlots = filteredSlots.filter(slot => {
+                    const slotTime = new Date(`${formattedDate} ${slot}`);
+                    return slotTime > currentDateTime;
+                });
+            }
+            setSlots(filteredSlots);
         } catch (error) {
             console.error('Error fetching time slots:', error);
             setSlots([]);
@@ -36,6 +45,7 @@ const TimeSlotSelection = ({ selectedDoctor, selectedDate, onDateChange, onTimeS
                     onChange={onDateChange}
                     value={selectedDate}
                     maxDetail="month"
+                    minDate={new Date()}  
                 />
             </div>
             <div className="slots-list-container">
@@ -58,7 +68,6 @@ const TimeSlotSelection = ({ selectedDoctor, selectedDate, onDateChange, onTimeS
             </div>
         </div>
     );
-
 };
 
 export default TimeSlotSelection;

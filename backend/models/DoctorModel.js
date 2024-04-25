@@ -12,6 +12,7 @@ const doctorSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true },
     specialty: { type: String, required: true },
     education: { type: String, required: true },
+    refCode: { type: String, required: true },
     availableSlots: [SlotSchema]
 });
 
