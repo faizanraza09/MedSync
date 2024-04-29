@@ -3,12 +3,15 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/PatientAppointments.css';
+import PatientNavbar from './PatientNavbar';
+
 
 const PatientAppointments = () => {
     const [appointments, setAppointments] = useState([]);
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
+    const { user } = useAuth();
 
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
@@ -22,33 +25,10 @@ const PatientAppointments = () => {
         fetchAppointments();
     }, [user]);
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
 
     return (
         <div className="patient-appointments-page">
-            <aside className="sidebar">
-                <div className="logo-section">
-                    <i className="fas fa-user-doctor"></i>
-                    <h2>MedSync</h2>
-                </div>
-                <nav className="nav-menu">
-                    <ul>
-                        <li onClick={() => navigate('/')}><i className="fas fa-home"></i> Dashboard</li>
-                        <li onClick={() => navigate('/appointments')}><i className="fas fa-calendar-alt"></i> Appointments</li>
-                        <li><i className="fas fa-envelope"></i> Messages</li>
-                        <li><i className="fas fa-file-medical-alt"></i> Medical Records</li>
-                        <li><i className="fas fa-user-md"></i> Doctors</li>
-                        <li><i className="fas fa-capsules"></i> Prescriptions</li>
-                        <li><i className="fas fa-cog"></i> Settings</li>
-                    </ul>
-                </nav>
-                <div className="logout-section">
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            </aside>
+            <PatientNavbar />
             <div className="appointments-content-area">
                 <h1>Your Appointments</h1>
                 <div>
@@ -56,6 +36,7 @@ const PatientAppointments = () => {
                         {appointments.map((appointment, index) => (
                             <li key={index}>
                                 {appointment.date} - {appointment.time} with Dr. {appointment.doctor}
+                                <li onClick={() => navigate(`/video-call/${appointment.roomID}`)}>Join Video Call </li>
                             </li>
                         ))}
                     </ul>

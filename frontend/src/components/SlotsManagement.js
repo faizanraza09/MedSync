@@ -3,23 +3,16 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
+import DoctorNavbar from './DoctorNavbar';
 
 const SlotsManagement = () => {
     const [date, setDate] = useState(new Date());
     const [slots, setSlots] = useState([]);
     const [newSlotTime, setNewSlotTime] = useState('');
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const userId = user._id;
 
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
-    
     const fetchSlotsForDate = useCallback(async (selectedDate) => {
         try {
             const formattedDate = selectedDate.toLocaleDateString('en-CA');
@@ -75,26 +68,7 @@ const SlotsManagement = () => {
 
     return (
         <div className="dashboard-container">
-            <aside className="sidebar">
-                <div className="logo-section">
-                    <i className="fas fa-user-md"></i>
-                    <h2>MedSync</h2>
-                </div>
-                <nav className="nav-menu">
-                    <ul>
-                        <li><i className="fas fa-tachometer-alt"></i> Dashboard</li>
-                        <li onClick={() => navigate('/manage-slots')}><i className="fas fa-clock"></i> Manage Slots</li>
-                        <li><i className="fas fa-users"></i> My Patients</li>
-                        <li><i className="fas fa-calendar-check"></i> Appointments</li>
-                        <li><i className="fas fa-notes-medical"></i> Medical Records</li>
-                        <li><i className="fas fa-comment-medical"></i> Consultations</li>
-                        <li><i className="fas fa-cog"></i> Settings</li>
-                    </ul>
-                </nav>
-                <div className="logout-section">
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            </aside>
+            <DoctorNavbar />
             <div className="slot-management-main">
                 <div className="calendar-container">
                     <Calendar

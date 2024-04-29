@@ -3,13 +3,21 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Register from './components/Register';
 import Login from './components/Login';
 import PatientDashboard from './components/PatientDashboard';
-import DoctorDashboard from './components/DoctorDashboard'; 
+import DoctorDashboard from './components/DoctorDashboard';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import ProtectedRoute from './ProtectedRoute';
-import { useAuth } from './contexts/AuthContext'; 
+import { useAuth } from './contexts/AuthContext';
 import ScheduleAppointment from './components/ScheduleAppointment';
 import SlotsManagement from './components/SlotsManagement';
 import PatientAppointments from './components/PatientAppointments';
+import UploadMedicalRecords from './components/UploadMedicalRecords';
+import PatientMedicalRecords from './components/PatientMedicalRecords';
+import DiagnosticsForm from './components/DiagnosticsForm';
+import Prescriptions from './components/Prescriptions';
+import PrescriptionForm from './components/PrescriptionForm';
+import PatientPrescriptions from './components/PatientPrescriptions';
+import VideoCall from './components/VideoCall'
+import DoctorAppointments from './components/DoctorAppointments';
 
 
 function App() {
@@ -46,9 +54,49 @@ function App() {
             <PatientAppointments />
           </ProtectedRoute>
         } />
+        <Route path="/doctor-appointments" element={
+          <ProtectedRoute>
+            <DoctorAppointments />
+          </ProtectedRoute>
+        } />
         <Route path="/schedule-appointment" element={
           <ProtectedRoute>
             <ScheduleAppointment />
+          </ProtectedRoute>
+        } />
+        <Route path="/upload-medical-records" element={
+          <ProtectedRoute>
+            <UploadMedicalRecords />
+          </ProtectedRoute>
+        } />
+        <Route path="/medical-records" element={
+          <ProtectedRoute>
+            <PatientMedicalRecords />
+          </ProtectedRoute>
+        } />
+        <Route path="/diagnostics" element={
+          <ProtectedRoute>
+            <DiagnosticsForm />
+          </ProtectedRoute>
+        } />
+        <Route path="/patients" element={
+          <ProtectedRoute>
+            <Prescriptions />
+          </ProtectedRoute>
+        } />
+        <Route path="/prescribe/:patientId" element={
+          <ProtectedRoute>
+            <PrescriptionForm />
+          </ProtectedRoute>
+        } />
+        <Route path="/prescriptions" element={
+          <ProtectedRoute>
+            <PatientPrescriptions />
+          </ProtectedRoute>
+        } />
+        <Route path="/video-call/:roomID" element={
+          <ProtectedRoute>
+            <VideoCall />
           </ProtectedRoute>
         } />
       </Routes>

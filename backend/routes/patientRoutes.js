@@ -3,8 +3,11 @@ const Appointment = require('../models/AppointmentModel');
 const Patient = require('../models/PatientModel');
 const Doctor = require('../models/DoctorModel');
 const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
 
-
+function randomID() {
+    return uuidv4(); // Generates a unique UUID
+}
 
 router.post('/add-doctor/:userId', async (req, res) => {
     const { referralCode } = req.body;
@@ -18,7 +21,7 @@ router.post('/add-doctor/:userId', async (req, res) => {
         }
 
         // Find the patient and add the doctor to their list of available doctors
-        const patient = await Patient.findOne({userId: userId});
+        const patient = await Patient.findOne({ userId: userId });
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }
@@ -43,7 +46,7 @@ router.get('/available-doctors/:userId', async (req, res) => {
         if (!patient) {
             return res.status(404).json({ message: 'Patient not found' });
         }
-        
+
         res.json(patient.availableDoctors);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -55,7 +58,10 @@ router.get('/available-doctors/:userId', async (req, res) => {
 // Post an appointment
 router.post('/book', async (req, res) => {
     const { doctorId, userId, date, time, modeOfConsultation, reason } = req.body;
-    
+    let roomID = null;
+    if (modeOfConsultation === 'Video') {
+        roomID = randomID();
+    }
     try {
         // Fetch the patient using the userId
         const patient = await Patient.findOne({ userId });
@@ -70,7 +76,8 @@ router.post('/book', async (req, res) => {
             date,
             time,
             modeOfConsultation,
-            reason
+            reason,
+            roomID
         });
         await newAppointment.save();
 
@@ -110,4 +117,36 @@ router.get('/:userId/appointments', async (req, res) => {
     }
 });
 
+
+//posting a prescription to a patient
+router.post('/:patientId/prescribe', async (req, res) => {
+    try {
+        const { medicineName, dosage, frequency, duration, notes, doctorId } = req.body;
+
+        const patient = await Patient.findById(req.params.patientId);
+        const doctor = await Doctor.findOne({ userId: doctorId });
+        console.log("issued by", doctorId);
+        const issuedBy = `${doctor.firstName} ${doctor.lastName}`;;
+        console.log("doctor name ", issuedBy);
+        patient.prescriptions.push({ medicineName, dosage, frequency, duration, notes, issuedBy });
+        await patient.save();
+        res.status(201).json(patient);
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding prescription', error });
+    }
+});
+
+//Geting prescriptions for a patient by their ID
+router.get('/:patientId/prescriptions', async (req, res) => {
+    try {
+        const patient = await Patient.findOne({ userId: req.params.patientId });
+        if (!patient) {
+            return res.status(404).send('Patient not found');
+        }
+        res.json(patient.prescriptions);
+    } catch (error) {
+        console.error('Error fetching prescriptions:', error);
+        res.status(500).json({ message: 'Error fetching prescriptions', error });
+    }
+});
 module.exports = router;

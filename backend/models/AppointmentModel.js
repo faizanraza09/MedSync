@@ -36,6 +36,10 @@ const appointmentSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  roomID: {
+    type: String,  // Optional field for storing room ID
+    default: null
   }
 });
 

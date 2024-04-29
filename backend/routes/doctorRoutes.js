@@ -1,6 +1,33 @@
 const express = require('express');
 const Doctor = require('../models/DoctorModel'); // Assuming you have a Doctor model defined
+const Appointment = require('../models/AppointmentModel');
 const router = express.Router();
+const CryptoJS = require('crypto-js');
+const {USERNAME, PASSWORD, APIMEDIC_AUTH_URL } = process.env;
+const axios = require('axios');
+
+const apiKey = USERNAME;
+const secretKey = PASSWORD;
+const uri = APIMEDIC_AUTH_URL;
+const format = "json"; 
+
+const computedHash = CryptoJS.HmacMD5(uri, secretKey);
+const computedHashString = computedHash.toString(CryptoJS.enc.Base64);
+const authorizationHeader = `Bearer ${apiKey}:${computedHashString}`;
+
+async function getToken() {
+    try {
+        const token_response = await axios.post(`${uri}?`, {}, {
+            headers: {
+                'Authorization': authorizationHeader,
+                'Content-Type': 'application/json'
+            }
+        })
+        return token_response.data.Token;
+    } catch (error) {
+        console.error('Login failed', error.response ? error.response.data : error.message);
+    }
+}
 
 // Get a list of all doctors
 router.get('/', async (req, res) => {
@@ -93,6 +120,61 @@ router.delete('/:userId/slots', async (req, res) => {
     }
 });
 
+
+router.post('/diagnostics', async (req, res) => {
+    const { symptoms, gender, yearOfBirth } = req.body;
+    const symptomIds = symptoms.join(',');
+    console.log(symptomIds)
+
+    try {
+        const token = await getToken();
+        const health_data = await axios.get(`https://sandbox-healthservice.priaid.ch/diagnosis?token=${token}&language=en-gb&symptoms=[${symptomIds}]&gender=${gender}&year_of_birth=${yearOfBirth}`);
+
+        console.log(health_data.data)
+        console.log("GOOD")
+        result = health_data.data
+        res.status(200).send(result)
+    } catch (error) {
+        console.error('Health data failed', error.response ? error.response.data : error.message);
+    }
+});
+
+router.get('/:userId/patients', async (req, res) => {
+       
+    try {
+        const doctor = await Doctor.findOne({ userId: req.params.userId }); //the user id we got was a the doctor user id, we fetch the doctor object from that
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+        const appointments = await Appointment.find({ doctorId: doctor._id }).populate('patientId');
+        //Using a map to extract unique patients
+        const uniquePatients = new Map();
+        appointments.forEach(appointment => {
+            if (appointment.patientId) {
+                uniquePatients.set(appointment.patientId._id.toString(), appointment.patientId);
+            }
+        });
+
+        res.json(Array.from(uniquePatients.values()));
+        
+        
+    } catch (error) {
+        res.status(404).json({ message: 'Appointments not found', error });
+    }
+  });
+
+router.get('/:userId/appointments', async (req, res) => {
+    try {
+        const doctor = await Doctor.findOne({ userId: req.params.userId });
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+        const appointments = await Appointment.find({ doctorId: doctor._id }).populate('patientId');
+        res.json(appointments);
+    } catch (error) {
+        res.status(404).json({ message: 'Appointments not found', error });
+    }
+});
 
 
 module.exports = router;

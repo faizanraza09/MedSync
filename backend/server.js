@@ -8,12 +8,21 @@ require('./config/passportConfig.js')(passport); // Passport config
 require('dotenv').config();
 const doctorRoutes = require('./routes/doctorRoutes');
 const patientRoutes = require('./routes/patientRoutes');
+const recordRoutes = require('./routes/medicalRecordRoutes.js');
 
 const app = express();
+
 const PORT = process.env.PORT || 3001;
 
+
 // Enable CORS for all routes
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+  exposedHeaders: ['Content-Disposition','X-Filename']
+}));
+
+
 
 // Bodyparser
 app.use(express.json());
@@ -43,5 +52,6 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use('/api/users', require('./routes/authRoutes.js'));
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/patients', patientRoutes);
+app.use('/api/records',recordRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

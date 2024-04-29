@@ -3,11 +3,12 @@ import '../styles/Dashboard.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import PatientNavbar from './PatientNavbar';
 
 const PatientDashboard = () => {
-    const { user,logout } = useAuth();
-    const navigate = useNavigate();
+    const { user } = useAuth();
     const [appointments, setAppointments] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -22,9 +23,6 @@ const PatientDashboard = () => {
         fetchAppointments();
     }, [user._id]);
 
-    const handleLogout = () => {
-        logout();
-    };
     // const appointments = [
     //     { doctor: 'Doctor Jenny', date: '11/01/24', time: '10:30pm', location: 'Online' },
     // ];
@@ -35,28 +33,7 @@ const PatientDashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <aside className="sidebar">
-                <div className="logo-section">
-                    <i className="fas fa-user-doctor"></i>
-                    <h2>MedSync</h2>
-                </div>
-
-                {/* Navigation Menu */}
-                <nav className="nav-menu">
-                    <ul>
-                        <li><i className="fas fa-home"></i> Dashboard</li>
-                        <li onClick={() => navigate('/appointments')}><i className="fas fa-calendar-alt"></i> Appointments</li>
-                        <li><i className="fas fa-envelope"></i> Messages</li>
-                        <li><i className="fas fa-file-medical-alt"></i> Medical Records</li>
-                        <li><i className="fas fa-user-md"></i> Doctors</li>
-                        <li><i className="fas fa-capsules"></i> Prescriptions</li>
-                        <li><i className="fas fa-cog"></i> Settings</li>
-                    </ul>
-                </nav>
-                <div className="logout-section">
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            </aside>
+            <PatientNavbar/>
             <div className="main-content">
                 <h1>Welcome Back!</h1>
                 <h2>Ayesha Rashid</h2>
@@ -67,6 +44,7 @@ const PatientDashboard = () => {
                         {appointments.map((appt, index) => (
                             <li key={index}>
                                 Doctor {appt.doctor} - {appt.date} at {appt.time} - {appt.modeOfConsultation}
+                                <li onClick={() => navigate(`/video-call/${appt.roomID}`)}>Join Video Call </li>
                             </li>
                         ))}
                     </ul>
