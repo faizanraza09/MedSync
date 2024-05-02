@@ -18,6 +18,8 @@ import PrescriptionForm from './components/PrescriptionForm';
 import PatientPrescriptions from './components/PatientPrescriptions';
 import VideoCall from './components/VideoCall'
 import DoctorAppointments from './components/DoctorAppointments';
+import Home from './components/Home';
+
 
 
 function App() {
@@ -27,13 +29,11 @@ function App() {
     <Router>
 
       <Routes>
+        <Route path="/" element={
+          user ? (user.role === 'doctor' ? <Navigate to="/doctor-dashboard" /> : <Navigate to="/patient-dashboard" />) : <Home />
+        } />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={
-          <ProtectedRoute>
-            {user ? (user.role === 'doctor' ? <Navigate to="/doctor-dashboard" /> : <Navigate to="/patient-dashboard" />) : <Navigate to="/login" />}
-          </ProtectedRoute>
-        } />
         <Route path="/doctor-dashboard" element={
           <ProtectedRoute>
             <DoctorDashboard />

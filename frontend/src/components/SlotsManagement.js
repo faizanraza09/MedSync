@@ -18,9 +18,10 @@ const SlotsManagement = () => {
             const formattedDate = selectedDate.toLocaleDateString('en-CA');
             const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${formattedDate}`);
             const currentDateTime = new Date();
-            const filteredSlots = formattedDate === currentDateTime.toLocaleDateString('en-CA') ?
-                response.data.times.filter(time => new Date(`${formattedDate}T${time}:00`) > currentDateTime) :
-                response.data.times;
+            const filteredSlots = response.data.times.filter(time => {
+                const slotDateTime = new Date(`${formattedDate}T${time}:00`);
+                return slotDateTime > currentDateTime;
+            });
             setSlots(filteredSlots || []);
         } catch (error) {
             console.error('Error fetching slots', error);
@@ -36,8 +37,9 @@ const SlotsManagement = () => {
     };
 
     const handleAddSlot = useCallback(async () => {
-        if (!newSlotTime) {
-            alert('Please enter a valid time.');
+        const newSlotDateTime = new Date(`${date.toLocaleDateString('en-CA')}T${newSlotTime}:00`);
+        if (newSlotDateTime <= new Date()) {
+            alert('Cannot add a slot in the past.'); // Use alert to display the error as a popup
             return;
         }
         try {
@@ -50,6 +52,7 @@ const SlotsManagement = () => {
             setNewSlotTime('');
         } catch (error) {
             console.error('Error adding new slot', error);
+            alert('Failed to add slot.'); // Use alert here as well if there is an error in the API call
         }
     }, [date, slots, newSlotTime, userId]);
 

@@ -31,9 +31,13 @@ const DoctorAppointments = () => {
                 <div>
                     <ul>
                         {appointments.map((appointment, index) => (
-                            <li key={index}>
-                                {appointment.date} - {appointment.time} with {appointment.patientName}
-                                <li onClick={() => navigate(`/video-call/${appointment.roomID}`)}>Join Video Call</li>
+                            <li key={index} className="appointment-item">
+                                <p><strong>Patient: </strong>{appointment.patientId.firstName} {appointment.patientId.lastName}</p>
+                                <p><strong>Date: </strong>{appointment.date}</p>
+                                <p><strong>Time: </strong>{appointment.time}</p>
+                                <button onClick={() => navigate(`/video-call/${appointment.roomID}`)} className="join-video-call-btn">
+                                    Join Video Call
+                                </button>
                             </li>
                         ))}
                     </ul>

@@ -1,36 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Dashboard.css';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DoctorNavbar from './DoctorNavbar.js';
-
+import { useAuth } from '../contexts/AuthContext';
+import '../styles/Dashboard.css';
+import DoctorNavbar from './DoctorNavbar';
 
 const DoctorDashboard = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
+    const [dashboardInfo, setDashboardInfo] = useState({
+        name: '',
+        refCode: '',
+        appointments: []
+    });
+    const [loading, setLoading] = useState(true);
 
-    const patientAppointments = [
-        { patientName: 'John Doe', date: '11/02/24', time: '11:00am', type: 'In-Person', condition: 'Routine Checkup' },
-    ];
+    useEffect(() => {
+        const fetchDashboardInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/api/doctors/dashboard/${user._id}`);
+                setDashboardInfo(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching dashboard info:', error);
+                setLoading(false);
+            }
+        };
 
-    const handleAppointmentClick = (appointment) => {
-        console.log("Viewing appointment:", appointment);
-    };
+        if (user && user._id) {
+            fetchDashboardInfo();
+        }
+    }, [user]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div className="dashboard-container">
             <DoctorNavbar />
             <div className="main-content">
-                <h1>Welcome, Dr. {user.name}!</h1>
-
+                <h1>Welcome, {dashboardInfo.name}!</h1>
+                <p>Your Referral Code: {dashboardInfo.refCode}</p>
                 <div className="appointments-section">
                     <h3>Today's Appointments</h3>
                     <ul>
-                        {patientAppointments.map((appt, index) => (
-                            <li key={index} onClick={() => handleAppointmentClick(appt)}>
+                        {dashboardInfo.appointments.map((appt, index) => (
+                            <li key={index}>
                                 {appt.patientName} - {appt.date} at {appt.time} - {appt.type}
-                                <li onClick={() => navigate(`/video-call/${appt.roomID}`)}>Join Video Call</li>
                             </li>
                         ))}
                     </ul>

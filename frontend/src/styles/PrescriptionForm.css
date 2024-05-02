@@ -1,0 +1,71 @@
+.prescriptions-form-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f4f7f6;
+    min-height: 100vh;
+    margin-left:250px;
+}
+
+.prescriptions-form-main {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.prescriptions-form-main h1 {
+    color: #02635e;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #02635e;
+    box-shadow: 0 0 0 1px #02635e;
+}
+
+.select-container {
+    margin-top: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-container button {
+    background-color: #02635e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.button-container button:hover {
+    background-color: #004643;
+}
+
+.prescriptions-form-main textarea {
+    min-height: 100px;
+}
+
+

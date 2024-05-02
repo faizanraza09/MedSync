@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Navbar.css';
 
 const DoctorNavbar = () => {
     const { logout } = useAuth();
@@ -21,7 +22,6 @@ const DoctorNavbar = () => {
                 <ul>
                     <li onClick={() => navigate('/doctor-dashboard')}><i className="fas fa-tachometer-alt"></i> Dashboard</li>
                     <li onClick={() => navigate('/manage-slots')}><i className="fas fa-clock"></i> Manage Slots</li>
-                    <li><i className="fas fa-users"></i> My Patients</li>
                     <li onClick={() => navigate('/doctor-appointments')}><i className="fas fa-calendar-check"></i> Appointments</li>
                     <li onClick={() => navigate('/upload-medical-records')}><i className="fas fa-notes-medical"></i> Medical Records</li>
                     <li onClick={() => navigate('/diagnostics')}><i className="fa-solid fa-brain"></i>Diagnostics</li>

@@ -3,50 +3,12 @@
     height: 100vh;
 }
 
-.sidebar {
-    background-color: #004643;
-    color: white;
-    width: 200px;
-    padding: 1em;
-    box-sizing: border-box;
-}
-
-.logo-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1em;
-}
-
-.logo-section i {
-    font-size: 1.5em;
-    margin-right: 0.5em;
-}
-
-.nav-menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-.nav-menu li {
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.nav-menu li i {
-    font-size: 1.2em;
-    margin-right: 0.5em;
-}
-
-.nav-menu li:hover {
-    background-color: #02635e;
-}
 
 .main-content {
     flex-grow: 1;
     background-color: #f4f7f6;
     padding: 20px;
+    margin-left: 250px;
 }
 
 .main-content h1,
@@ -54,12 +16,12 @@
     color: #004643;
 }
 
-.appointments-section,
-.notifications-section {
+.appointments-section{
     background-color: white;
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 8px;
+    margin-top: 20px;
 }
 
 .logout-section {
@@ -67,19 +29,6 @@
     padding: 20px;
 }
 
-.logout-section button {
-    width: 100%;
-    padding: 10px;
-    background-color: white;
-    color: #004643;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.logout-section button:hover {
-    background-color: grey;
-}
 
 .slot-management-main {
     display: flex;
@@ -88,8 +37,8 @@
     gap: 0px;
     align-items: flex-start;
     background-color: #f4f7f6;
+    margin-left: 250px;
 }
-
 .react-calendar {
     width: 100%;
     max-width: none;

@@ -9,6 +9,24 @@ function randomID() {
     return uuidv4(); // Generates a unique UUID
 }
 
+// Get patient details by userId
+router.get('/details/:userId', async (req, res) => {
+    try {
+        const patient = await Patient.findOne({ userId: req.params.userId });
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        res.json({
+            firstName: patient.firstName,
+            lastName: patient.lastName
+            // you can add more details here if needed
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.post('/add-doctor/:userId', async (req, res) => {
     const { referralCode } = req.body;
     const userId = req.params.userId;
@@ -20,17 +38,20 @@ router.post('/add-doctor/:userId', async (req, res) => {
             return res.status(404).json({ message: "Doctor not found" });
         }
 
-        // Find the patient and add the doctor to their list of available doctors
+        // Find the patient and check if the doctor is already added to their list of available doctors
         const patient = await Patient.findOne({ userId: userId });
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }
 
-        // Add the doctor's ID to the patient's availableDoctors array
-        if (!patient.availableDoctors.includes(doctor._id)) {
-            patient.availableDoctors.push(doctor._id);
-            await patient.save();
+        // Check if the doctor's ID is already in the patient's availableDoctors array
+        if (patient.availableDoctors.includes(doctor._id)) {
+            return res.status(200).json({ message: "Doctor already added" });
         }
+
+        // Add the doctor's ID to the patient's availableDoctors array
+        patient.availableDoctors.push(doctor._id);
+        await patient.save();
 
         res.status(200).json({ message: "Doctor added successfully", doctor });
     } catch (error) {
@@ -87,7 +108,10 @@ router.post('/book', async (req, res) => {
             { $pull: { 'availableSlots.$.times': time } }
         );
 
-        res.status(201).json({ message: "Appointment booked successfully" });
+        // Populate the doctor in the appointment object
+        const populatedAppointment = await newAppointment.populate('doctorId');
+        console.log(populatedAppointment);
+        res.status(201).json({ message: "Appointment booked successfully", appointment: populatedAppointment });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: err.message });
@@ -118,20 +142,47 @@ router.get('/:userId/appointments', async (req, res) => {
 });
 
 
-//posting a prescription to a patient
 router.post('/:patientId/prescribe', async (req, res) => {
     try {
-        const { medicineName, dosage, frequency, duration, notes, doctorId } = req.body;
+        const {
+            medicineName,
+            dosage, dosageUnit, // assuming dosageUnit might be an object
+            frequency, frequencyUnit, // assuming frequencyUnit might be an object
+            duration, durationUnit, // assuming durationUnit might be an object
+            notes, doctorId
+        } = req.body;
 
         const patient = await Patient.findById(req.params.patientId);
+        if (!patient) {
+            return res.status(404).json({ message: "Patient not found" });
+        }
+
         const doctor = await Doctor.findOne({ userId: doctorId });
-        console.log("issued by", doctorId);
-        const issuedBy = `${doctor.firstName} ${doctor.lastName}`;;
-        console.log("doctor name ", issuedBy);
-        patient.prescriptions.push({ medicineName, dosage, frequency, duration, notes, issuedBy });
+        if (!doctor) {
+            return res.status(404).json({ message: "Doctor not found" });
+        }
+
+        const issuedBy = `${doctor.firstName} ${doctor.lastName}`;
+
+        // Ensure units are extracted as strings
+        const fullDosage = `${dosage} ${dosageUnit.value || dosageUnit}`;
+        const fullFrequency = `${frequency} per ${frequencyUnit.value || frequencyUnit}`;
+        const fullDuration = `${duration} ${durationUnit.value || durationUnit}`;
+
+        // Add the concatenated data to the prescription list
+        patient.prescriptions.push({
+            medicineName,
+            dosage: fullDosage,
+            frequency: fullFrequency,
+            duration: fullDuration,
+            notes,
+            issuedBy
+        });
+
         await patient.save();
         res.status(201).json(patient);
     } catch (error) {
+        console.error('Error adding prescription:', error);
         res.status(500).json({ message: 'Error adding prescription', error });
     }
 });

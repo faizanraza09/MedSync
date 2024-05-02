@@ -15,10 +15,7 @@ const ScheduleAppointment = () => {
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
-    const [appointmentDetails, setAppointmentDetails] = useState({
-        modeOfConsultation: '',
-        reason: '',
-    });
+    const [appointmentDetails, setAppointmentDetails] = useState({});
     const { user } = useAuth();
 
     const navigate=useNavigate();
@@ -55,9 +52,9 @@ const ScheduleAppointment = () => {
                 time: selectedTimeSlot,
                 ...details
             });
-
+            
             // Assuming the backend returns the confirmed appointment
-            setAppointmentDetails(response.data);
+            setAppointmentDetails(response.data.appointment);
             setStep(4); // Move to confirmation
         } catch (error) {
             console.error('Failed to book appointment:', error);

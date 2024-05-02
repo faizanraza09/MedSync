@@ -39,6 +39,46 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get doctor's dashboard information
+router.get('/dashboard/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const doctor = await Doctor.findOne({ userId: userId });
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+
+        // Fetch appointments for today
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const appointments = await Appointment.find({
+            doctorId: doctor._id,
+            date: { $gte: today, $lt: tomorrow }
+        }).populate('patientId');  // Assuming 'patientId' is a reference to a Patient model
+
+        const dashboardInfo = {
+            name: `${doctor.firstName} ${doctor.lastName}`,
+            refCode: doctor.refCode,
+            appointments: appointments.map(appt => ({
+                patientName: `${appt.patientId.firstName} ${appt.patientId.lastName}`,
+                date: appt.date,
+                time: appt.time,
+                reason: appt.reason,
+                modeOfConsultation: appt.modeOfConsultation
+            }))
+        };
+
+        res.json(dashboardInfo);
+    } catch (error) {
+        console.error('Error fetching doctor dashboard:', error);
+        res.status(500).json({ message: 'Error fetching doctor dashboard' });
+    }
+});
+
+
 // GET available slots for a doctor on a specific date
 router.get('/:userId/slots/:date', async (req, res) => {
     try {

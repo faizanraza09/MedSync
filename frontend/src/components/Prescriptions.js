@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/DoctorPrescribe.css';
+import DoctorNavbar from './DoctorNavbar';
 
 
 function Prescriptions() {
@@ -40,19 +42,30 @@ function Prescriptions() {
 
   return (
     <div>
-      <h1>Patients</h1>
-      {appointments.length > 0 ? (
-        appointments.map(patient => (
-          <div key={patient._id}>
-            <p>{patient.firstName} {patient.lastName}</p>
-            <button onClick={() => handlePrescribe(patient._id)}>Prescribe Medication</button>
-          </div>
-        ))
-      ) : (
-        <p>No appointments found.</p>
-      )}
+       <DoctorNavbar />
+      <div className="prescriptions-container">
+        <div className="prescriptions-main">
+          <h1>Prescribe Medication</h1>
+          <h3>Select a patient to prescribe medicine for:</h3>
+          {appointments.length > 0 ? (
+            appointments.map(patient => (
+              <div key={patient._id}>
+                <ul>
+                  <li className="patient" onClick={() => handlePrescribe(patient._id)}>
+                    <strong>Patient ID:</strong> {patient._id} <br />
+                    <strong>Patient Name:</strong> {patient.firstName} {patient.lastName}
+                  </li>
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p>No appointments found.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
+
 
 export default Prescriptions;

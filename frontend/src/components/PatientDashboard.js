@@ -1,62 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Dashboard.css';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import '../styles/Dashboard.css';
 import PatientNavbar from './PatientNavbar';
 
 const PatientDashboard = () => {
     const { user } = useAuth();
     const [appointments, setAppointments] = useState([]);
+    const [nearestAppointment, setNearestAppointment] = useState(null);
+    const [patientName, setPatientName] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/api/patients/${user._id}/appointments`);
-                setAppointments(response.data);
+                const sortedAppointments = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
+                setAppointments(sortedAppointments);
+                setNearestAppointment(sortedAppointments.find(appt => new Date(appt.date) >= new Date()));
             } catch (error) {
                 console.error('Error fetching appointments:', error);
             }
         };
 
-        fetchAppointments();
+        const fetchPatientDetails = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3001/api/patients/details/${user._id}`);
+                setPatientName(`${response.data.firstName} ${response.data.lastName}`);
+            } catch (error) {
+                console.error('Error fetching patient details:', error);
+            }
+        };
+
+        if (user && user._id) {
+            fetchAppointments();
+            fetchPatientDetails();
+        }
     }, [user._id]);
-
-    // const appointments = [
-    //     { doctor: 'Doctor Jenny', date: '11/01/24', time: '10:30pm', location: 'Online' },
-    // ];
-
-    const notifications = [
-        { message: 'Doctor Jenny changed the timing of...', time: '10:44pm' },
-    ];
 
     return (
         <div className="dashboard-container">
-            <PatientNavbar/>
+            <PatientNavbar />
             <div className="main-content">
-                <h1>Welcome Back!</h1>
-                <h2>Ayesha Rashid</h2>
-
+                <h1>Welcome Back, {patientName}!</h1>
                 <div className="appointments-section">
-                    <h3>Upcoming Appointments</h3>
-                    <ul>
-                        {appointments.map((appt, index) => (
-                            <li key={index}>
-                                Doctor {appt.doctor} - {appt.date} at {appt.time} - {appt.modeOfConsultation}
-                                <li onClick={() => navigate(`/video-call/${appt.roomID}`)}>Join Video Call </li>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="notifications-section">
-                    <h3>Notifications</h3>
-                    <ul>
-                        {notifications.map((note, index) => (
-                            <li key={index}>{note.message} - <span>{note.time}</span></li>
-                        ))}
-                    </ul>
+                    <h3>Your Next Appointment</h3>
+                    {nearestAppointment ? (
+                        <div>
+                            <p><strong>Doctor:</strong> {nearestAppointment.doctor}</p>
+                            <p><strong>Date:</strong> {nearestAppointment.date}</p>
+                            <p><strong>Time:</strong> {nearestAppointment.time}</p>
+                        </div>
+                    ) : (
+                        <p>No upcoming appointments found.</p>
+                    )}
                 </div>
             </div>
         </div>

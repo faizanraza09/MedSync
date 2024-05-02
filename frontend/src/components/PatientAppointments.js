@@ -5,11 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/PatientAppointments.css';
 import PatientNavbar from './PatientNavbar';
 
-
 const PatientAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const { user } = useAuth();
-
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -25,23 +23,26 @@ const PatientAppointments = () => {
         fetchAppointments();
     }, [user]);
 
-
     return (
         <div className="patient-appointments-page">
             <PatientNavbar />
             <div className="appointments-content-area">
                 <h1>Your Appointments</h1>
-                <div>
-                    <ul>
-                        {appointments.map((appointment, index) => (
-                            <li key={index}>
-                                {appointment.date} - {appointment.time} with Dr. {appointment.doctor}
-                                <li onClick={() => navigate(`/video-call/${appointment.roomID}`)}>Join Video Call </li>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <button onClick={() => navigate('/schedule-appointment')}>Schedule New Appointment</button>
+                <ul>
+                    {appointments.map((appointment, index) => (
+                        <li key={index} className="appointment-item">
+                            <p><strong>Doctor: </strong>{appointment.doctor}</p>
+                            <p><strong>Date: </strong>{appointment.date}</p>
+                            <p><strong>Time: </strong>{appointment.time}</p>
+                            <button onClick={() => navigate(`/video-call/${appointment.roomID}`)} className="join-video-call-btn">
+                                Join Video Call
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                <button onClick={() => navigate('/schedule-appointment')} className="schedule-new-appointment-btn">
+                    Schedule New Appointment
+                </button>
             </div>
         </div>
     );

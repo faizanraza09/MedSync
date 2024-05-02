@@ -11,7 +11,6 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
     const [specialtyFilter, setSpecialtyFilter] = useState('All Specialties');
     const [specialties, setSpecialties] = useState([]);
 
-    // Wrap the fetch function in useCallback to memoize it
     const fetchAvailableDoctors = useCallback(async () => {
         try {
             const response = await axios.get(`http://localhost:3001/api/patients/available-doctors/${user._id}`);
@@ -23,11 +22,11 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
             console.error('Error fetching doctors:', error);
             setLoading(false);
         }
-    }, [user._id]); // Dependency array includes user._id because it's used in the URL
+    }, [user._id]);
 
     useEffect(() => {
         fetchAvailableDoctors();
-    }, [fetchAvailableDoctors]); 
+    }, [fetchAvailableDoctors]);
 
     const handleReferralCodeSubmit = async () => {
         try {
@@ -75,7 +74,7 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
                 onChange={(e) => setReferralCode(e.target.value)}
                 className="referral-code-input"
             />
-            <button onClick={handleReferralCodeSubmit}>Add Doctor</button>
+            <button onClick={handleReferralCodeSubmit} className="add-doctor-button">Add Doctor</button>
             {filteredDoctors.map((doctor) => (
                 <div key={doctor._id} className="doctor-card" onClick={() => onDoctorSelect(doctor)}>
                     <div>
@@ -89,3 +88,4 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
 };
 
 export default DoctorSelection;
+
