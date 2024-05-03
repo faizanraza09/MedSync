@@ -180,6 +180,9 @@ const DiagnosticsForm = () => {
 };
 
 const renderDiagnostics = (results) => {
+    if (results.length === 0) {
+        return <p>No diagnosis available for these set of symptoms.</p>;
+    }
     return results.slice(0, 3).map((item, index) => (
         <div key={index} className="result-item">
             <h3>{item.Issue.Name} (Accuracy: {item.Issue.Accuracy.toFixed(2)}%)</h3>

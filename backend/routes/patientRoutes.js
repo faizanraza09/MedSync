@@ -31,31 +31,31 @@ router.post('/add-doctor/:userId', async (req, res) => {
     const { referralCode } = req.body;
     const userId = req.params.userId;
 
+    if (!referralCode) {
+        return res.status(400).json({ message: "Referral code is required" });
+    }
+
     try {
-        // Find the doctor by the referral code
         const doctor = await Doctor.findOne({ refCode: referralCode });
         if (!doctor) {
             return res.status(404).json({ message: "Doctor not found" });
         }
 
-        // Find the patient and check if the doctor is already added to their list of available doctors
         const patient = await Patient.findOne({ userId: userId });
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }
 
-        // Check if the doctor's ID is already in the patient's availableDoctors array
         if (patient.availableDoctors.includes(doctor._id)) {
-            return res.status(200).json({ message: "Doctor already added" });
+            return res.status(409).json({ message: "Doctor already added" });  // 409 Conflict could be more appropriate here
         }
 
-        // Add the doctor's ID to the patient's availableDoctors array
         patient.availableDoctors.push(doctor._id);
         await patient.save();
 
-        res.status(200).json({ message: "Doctor added successfully", doctor });
+        res.status(201).json({ message: "Doctor added successfully", doctor: doctor });
     } catch (error) {
-        console.error(error);
+        console.error("Server error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });

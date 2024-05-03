@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Home.css';
+import '../styles/Home.css'; // Import the CSS
 
 
 function Home() {
     return (
-        <div className="home-container"> 
-        
+        <div className="home-container">  
             <div className="home-content">
                 <h1 className="home-title">MedSync</h1>
                 <div className="info-box">

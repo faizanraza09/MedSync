@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
                 specialty,
                 education,
                 refCode,
-                availableSlots: [] 
+                availableSlots: []
             });
             await doctorProfile.save();
         } else {
@@ -79,5 +79,38 @@ router.get('/logout', (req, res) => {
         res.status(200).json({ message: 'Logged out successfully' });
     });
 });
+
+router.post('/check-email', async (req, res) => {
+    const { email } = req.body;
+    console.log(email)
+    try {
+
+        const user = await User.findOne({ email });
+
+        if (user) {
+            res.status(409).json({ message: 'Email already exists' });
+        } else {
+            res.json({ message: 'Email is available' });
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
+router.post('/check-email-exists', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const userExists = await User.findOne({ email });
+
+        if (userExists) {
+            res.json({ exists: true });
+        } else {
+            res.status(404).json({ exists: false, message: 'Email does not exist' });
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
 
 module.exports = router;

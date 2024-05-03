@@ -9,6 +9,8 @@ const MedicalRecords = () => {
     const [patients, setPatients] = useState([]);
     const { user } = useAuth();
     const userId = user._id;
+    const [selectedFile, setSelectedFile] = useState({});
+
 
     useEffect(() => {
         if (userId) {
@@ -32,7 +34,12 @@ const MedicalRecords = () => {
         }
     }, [doctorId]);
 
-    const handleUpload = (patientId, file) => {
+    const handleFileChange = (patientId, file) => {
+        setSelectedFile({ ...selectedFile, [patientId]: file });
+    };
+
+    const handleUpload = (patientId) => {
+        const file = selectedFile[patientId];
         if (!file) {
             alert("Please select a file to upload.");
             return;
@@ -73,7 +80,7 @@ const MedicalRecords = () => {
                             <input 
                                 type="file" 
                                 className="input-file-container"
-                                onChange={(e) => handleUpload(patient._id, e.target.files[0])} 
+                                onChange={(e) => handleFileChange(patient._id, e.target.files[0])}
                                 accept=".pdf,.jpg,.jpeg"
                             />
                             <button className="upload-button" onClick={() => handleUpload(patient._id)}>Upload</button>

@@ -45,7 +45,12 @@ const DoctorDashboard = () => {
                     <ul>
                         {dashboardInfo.appointments.map((appt, index) => (
                             <li key={index}>
-                                {appt.patientName} - {appt.date} at {appt.time} - {appt.type}
+                                <p><strong>Patient:</strong> {appt.patientName}</p>
+                                <p><strong>Date:</strong> {appt.date}</p>
+                                <p><strong>Time:</strong> {appt.time}</p>
+                                <p><strong>Reason:</strong> {appt.reason}</p>
+                                <p><strong>Mode of Consultation:</strong> {appt.modeOfConsultation}</p>
+                                <br/>
                             </li>
                         ))}
                     </ul>

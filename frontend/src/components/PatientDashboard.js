@@ -17,8 +17,13 @@ const PatientDashboard = () => {
             try {
                 const response = await axios.get(`http://localhost:3001/api/patients/${user._id}/appointments`);
                 const sortedAppointments = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
+                console.log('Appointments:', sortedAppointments);
+        
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Normalize today's date to start of the day for accurate comparison
+        
+                setNearestAppointment(sortedAppointments.find(appt => new Date(appt.date) >= today));
                 setAppointments(sortedAppointments);
-                setNearestAppointment(sortedAppointments.find(appt => new Date(appt.date) >= new Date()));
             } catch (error) {
                 console.error('Error fetching appointments:', error);
             }
@@ -51,6 +56,8 @@ const PatientDashboard = () => {
                             <p><strong>Doctor:</strong> {nearestAppointment.doctor}</p>
                             <p><strong>Date:</strong> {nearestAppointment.date}</p>
                             <p><strong>Time:</strong> {nearestAppointment.time}</p>
+                            <p><strong>Reason:</strong> {nearestAppointment.reason}</p>
+                            <p><strong>Mode of Consultation:</strong> {nearestAppointment.modeOfConsultation}</p>
                         </div>
                     ) : (
                         <p>No upcoming appointments found.</p>

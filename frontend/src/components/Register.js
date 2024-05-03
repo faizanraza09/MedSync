@@ -14,33 +14,90 @@ function Register() {
         specialty: '',
         education: ''
     });
+    
 
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { email, password, role, firstName, lastName, phoneNumber, specialty, education } = formData;
 
     const navigate = useNavigate();
+
+    const checkEmail = async () => {
+        if (!email) {
+            return true;  
+        }
+    
+        setIsLoading(true);  
+    
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/users/check-email`, { email });
+            setIsLoading(false); 
+            return true;  
+        } catch (error) {
+            setIsLoading(false);  
+            if (error.response && error.response.status === 409) {
+                setErrorMessage('Email already exists');
+            } else {
+                setErrorMessage('Failed to check email. Please try again later.');
+            }
+            return false;  
+        }
+    };
+    
+
+    const handleBackToHome = () => {
+        navigate('/');  // Assuming the home route is '/'
+    };
+
+    const handleGoToLogin = () => {
+        navigate('/login');  // Assuming the home route is '/'
+    };
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
+
+        // Check if email is available in system
+        const isEmailAvailable = await checkEmail();
+        if (!isEmailAvailable) {
+            return;  
+        }
+
+        // Check for password length
+        if (password.length < 8 || password.length > 16) {
+            setErrorMessage('Password must be between 8 and 16 characters');
+            return;  
+        }
+      
         const user = {
-            email, password, role, firstName, lastName, phoneNumber,
-            ...(role === 'doctor' && { specialty, education }) // Spread only if the role is 'doctor'
+          email,
+          password,
+          role,
+          firstName,
+          lastName,
+          phoneNumber,
+          ...(role === 'doctor' && { specialty, education })
         };
 
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, user, config);
-            console.log(response.data);
-            navigate('/login');
+          const config = {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+      
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, user, config);
+          console.log(response.data);
+          navigate('/login');
         } catch (error) {
-            console.error(error.response.data);
-        }
-    };
+            if (error.response && error.response.status === 409 && error.response.data.message === 'Email already exists') {
+            setErrorMessage('Email already exists');
+            } else {
+            setErrorMessage('An error occurred. Please try again later.');
+            }
+        }    
+      };
 
     return (
         <div className="auth-container">
@@ -78,7 +135,11 @@ function Register() {
                 )}
 
                 <button className="auth-button" type="submit">Register</button>
+                <button className="auth-button" type="button" onClick={handleGoToLogin}>Already have an Account? Login!</button>
+                {/* <button className="auth-button" type="button" onClick={handleBackToHome}>Back to Home</button> */}
+
             </form>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
     );
 }

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function randomID(len) {
@@ -25,6 +26,7 @@ function VideoCall() {
     const { roomID } = useParams();
     const appID = 1492563618; // You should replace it with your actual appID
     const serverSecret = "1044e4b51d869bc19679bfb612680970"; // You should replace it with your actual server secret
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, randomID(5), randomID(5));
@@ -41,6 +43,9 @@ function VideoCall() {
             scenario: {
                 mode: ZegoUIKitPrebuilt.OneONoneCall, // Modify as needed
             },
+            onReturnToHomeScreenClicked: () => {
+                navigate('/'); // Navigate to your dashboard route
+            }
         });
 
         return () => {

@@ -3,12 +3,17 @@
     height: 100vh;
 }
 
+.doctor-appointments-page {
+    display: flex;
+    height: 100vh;
+}
+
 .appointments-content-area {
     flex-grow: 1;
     background-color: #f4f7f6;
     padding: 20px;
-    margin-left: 250px; /* This should match the width of the sidebar */
-    height:100vh;
+    margin-left: 250px; /* Adjusted to sidebar width */
+    height: 100vh;
 }
 
 .appointments-content-area h1 {
@@ -25,9 +30,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Wrap content in smaller screens */
 }
 
-.join-video-call-btn {
+.appointment-details {
+    flex-grow: 1;
+    min-width: 60%; /* Ensure details section has enough space */
+}
+
+
+.join-video-call-btn,
+.placeholder-btn {
     padding: 5px 10px;
     background-color: #02635e;
     color: white;
@@ -35,10 +48,24 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 20px;
+    text-align: center;
+    height:50px;
+    width: 200px; /* Fixed width for alignment */
 }
 
 .join-video-call-btn:hover {
     background-color: #004643;
+}
+
+.join-video-call-btn.disabled, .join-video-call-btn:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.placeholder-btn {
+    visibility: hidden; /* Hide placeholder but maintain layout */
 }
 
 .schedule-new-appointment-btn {

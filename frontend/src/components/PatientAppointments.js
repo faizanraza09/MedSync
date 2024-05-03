@@ -9,7 +9,7 @@ const PatientAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const { user } = useAuth();
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
@@ -31,12 +31,23 @@ const PatientAppointments = () => {
                 <ul>
                     {appointments.map((appointment, index) => (
                         <li key={index} className="appointment-item">
-                            <p><strong>Doctor: </strong>{appointment.doctor}</p>
-                            <p><strong>Date: </strong>{appointment.date}</p>
-                            <p><strong>Time: </strong>{appointment.time}</p>
-                            <button onClick={() => navigate(`/video-call/${appointment.roomID}`)} className="join-video-call-btn">
-                                Join Video Call
-                            </button>
+                            <div className="appointment-details">
+                                <p><strong>Doctor: </strong>{appointment.doctor}</p>
+                                <p><strong>Date: </strong>{appointment.date}</p>
+                                <p><strong>Time: </strong>{appointment.time}</p>
+                                <p><strong>Reason: </strong>{appointment.reason}</p>
+                                <p><strong>Mode of Consultation: </strong>{appointment.modeOfConsultation}</p>
+                            </div>
+                            {appointment.modeOfConsultation === 'Video' && (
+                                <button
+                                    onClick={() => navigate(`/video-call/${appointment.roomID}`)}
+                                    className={`join-video-call-btn ${new Date(appointment.date) > new Date() ? 'disabled' : ''}`}
+                                    disabled={new Date(appointment.date) > new Date()}
+                                >
+                                    Join Video Call
+                                </button>
+                            )}
+
                         </li>
                     ))}
                 </ul>

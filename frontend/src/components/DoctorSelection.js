@@ -31,10 +31,15 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
     const handleReferralCodeSubmit = async () => {
         try {
             const response = await axios.post(`http://localhost:3001/api/patients/add-doctor/${user._id}`, { referralCode });
-            console.log(response.data.message);
+            if (response.data.message === "Doctor already added") {
+                alert('Doctor already added');
+            } else {
+                alert('Doctor added successfully');
+            }
             fetchAvailableDoctors(); // Refresh the list of available doctors
         } catch (error) {
             console.error('Error adding doctor:', error.response.data.message);
+            alert(error.response.data.message || 'Failed to add doctor');
         }
     };
 

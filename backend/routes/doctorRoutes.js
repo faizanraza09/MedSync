@@ -3,7 +3,7 @@ const Doctor = require('../models/DoctorModel'); // Assuming you have a Doctor m
 const Appointment = require('../models/AppointmentModel');
 const router = express.Router();
 const CryptoJS = require('crypto-js');
-const {USERNAME, PASSWORD, APIMEDIC_AUTH_URL } = process.env;
+const {USERNAME, PASSWORD, APIMEDIC_AUTH_URL, APIMEDIC_HEALTH_URL } = process.env;
 const axios = require('axios');
 
 const apiKey = USERNAME;
@@ -39,7 +39,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get doctor's dashboard information
 router.get('/dashboard/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -48,16 +47,18 @@ router.get('/dashboard/:userId', async (req, res) => {
             return res.status(404).json({ message: 'Doctor not found' });
         }
 
-        // Fetch appointments for today
+        // Get today's date and tomorrow's date in local time zone (e.g., UAE)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-
+        today.setDate(today.getDate() + 1); 
+        const todayStr = today.toISOString().split('T')[0];  // 'YYYY-MM-DD'
+        
+        // Fetch appointments for today considering both date and time
         const appointments = await Appointment.find({
             doctorId: doctor._id,
-            date: { $gte: today, $lt: tomorrow }
-        }).populate('patientId');  // Assuming 'patientId' is a reference to a Patient model
+            date: todayStr,  // Assuming date is stored as 'YYYY-MM-DD'
+        }).populate('patientId');
+
 
         const dashboardInfo = {
             name: `${doctor.firstName} ${doctor.lastName}`,
@@ -77,6 +78,7 @@ router.get('/dashboard/:userId', async (req, res) => {
         res.status(500).json({ message: 'Error fetching doctor dashboard' });
     }
 });
+
 
 
 // GET available slots for a doctor on a specific date
@@ -168,7 +170,7 @@ router.post('/diagnostics', async (req, res) => {
 
     try {
         const token = await getToken();
-        const health_data = await axios.get(`https://sandbox-healthservice.priaid.ch/diagnosis?token=${token}&language=en-gb&symptoms=[${symptomIds}]&gender=${gender}&year_of_birth=${yearOfBirth}`);
+        const health_data = await axios.get(`${APIMEDIC_HEALTH_URL}/diagnosis?token=${token}&language=en-gb&symptoms=[${symptomIds}]&gender=${gender}&year_of_birth=${yearOfBirth}`);
 
         console.log(health_data.data)
         console.log("GOOD")
