@@ -22,10 +22,9 @@ function getUrlParams(url = window.location.href) {
 }
 
 function VideoCall() {
-    //const roomID = getUrlParams().get('roomID') || randomID(5);
     const { roomID } = useParams();
-    const appID = 1492563618; // You should replace it with your actual appID
-    const serverSecret = "1044e4b51d869bc19679bfb612680970"; // You should replace it with your actual server secret
+    const appID = 1492563618;
+    const serverSecret = "1044e4b51d869bc19679bfb612680970"; 
     const navigate = useNavigate();
 
     React.useEffect(() => {

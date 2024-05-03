@@ -17,7 +17,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleBackToHome = () => {
-        navigate('/');  // Assuming the home route is '/'
+        navigate('/');  
     };
 
     const handleGoToRegister = () => {

@@ -146,9 +146,9 @@ router.post('/:patientId/prescribe', async (req, res) => {
     try {
         const {
             medicineName,
-            dosage, dosageUnit, // assuming dosageUnit might be an object
-            frequency, frequencyUnit, // assuming frequencyUnit might be an object
-            duration, durationUnit, // assuming durationUnit might be an object
+            dosage, dosageUnit, 
+            frequency, frequencyUnit, 
+            duration, durationUnit, 
             notes, doctorId
         } = req.body;
 

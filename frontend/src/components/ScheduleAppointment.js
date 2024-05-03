@@ -53,7 +53,7 @@ const ScheduleAppointment = () => {
                 ...details
             });
             
-            // Assuming the backend returns the confirmed appointment
+            
             setAppointmentDetails(response.data.appointment);
             setStep(4); // Move to confirmation
         } catch (error) {

@@ -46,11 +46,11 @@ function Register() {
     
 
     const handleBackToHome = () => {
-        navigate('/');  // Assuming the home route is '/'
+        navigate('/');  
     };
 
     const handleGoToLogin = () => {
-        navigate('/login');  // Assuming the home route is '/'
+        navigate('/login');  
     };
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });

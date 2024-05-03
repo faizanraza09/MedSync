@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-// Assuming Doctor model is defined in '../models/DoctorModel'
 const Doctor = require('../models/DoctorModel');
-// Assuming Patient model is defined in '../models/PatientModel'
 const Patient = require('../models/PatientModel');
 
 

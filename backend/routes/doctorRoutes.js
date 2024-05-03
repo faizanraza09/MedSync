@@ -1,5 +1,5 @@
 const express = require('express');
-const Doctor = require('../models/DoctorModel'); // Assuming you have a Doctor model defined
+const Doctor = require('../models/DoctorModel'); 
 const Appointment = require('../models/AppointmentModel');
 const router = express.Router();
 const CryptoJS = require('crypto-js');
@@ -56,7 +56,7 @@ router.get('/dashboard/:userId', async (req, res) => {
         // Fetch appointments for today considering both date and time
         const appointments = await Appointment.find({
             doctorId: doctor._id,
-            date: todayStr,  // Assuming date is stored as 'YYYY-MM-DD'
+            date: todayStr, 
         }).populate('patientId');
 
 
