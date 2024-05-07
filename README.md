@@ -20,6 +20,49 @@ healthcare landscape.
 ## Prerequisites
 Before you start, ensure you have MongoDB properly installed and set up. Follow the [documentation](https://www.mongodb.com/docs/manual/installation/) for installation instructions.
 
+For ZegoCloud setup 
+
+## .gitignore
+
+Add .gitignore file by running
+
+```bash
+touch .gitignore
+```
+In the file add
+
+```bash
+node_modules
+.env
+```
+
+## .env file
+Create .env file in both MedSync/backend and MedSync/frontend
+
+You can do this by running
+```bash
+touch .env 
+```
+
+1. In backend .env add:
+```bash
+MONGO_URI=mongodb://localhost:27017/medsync
+USERNAME= # Your APIMedic Username
+PASSWORD= # Your APIMedic Password
+APIMEDIC_AUTH_URL=https://sandbox-authservice.priaid.ch/login
+APIMEDIC_HEALTH_URL=https://sandbox-healthservice.priaid.ch
+LANGUAGE=en-gb
+```
+To get the APIMedic Username and Passoword, register at https://apimedic.com and get credentials (either sandbox or live)
+Node: The connection is not secure as of 07/05/2024
+
+2. In frontend .env add:
+```bash
+REACT_APP_API_URL=http://localhost:3001
+SERVER_SECRET = "Your ZegoCloud Secret Key"
+```
+To obtain the ZegoCloud secret, register at https://www.zegocloud.com and get credentials. 
+
 ## Setup
 
 ### Cloning the Repository
@@ -59,6 +102,12 @@ npm install
 3. Start the frontend application:
 ```bash
 npm start
+```
+
+If ZegoCloud SDK is not installed, run
+
+```bash
+npm install @zegocloud/zego-uikit-prebuilt --save
 ```
 
 ## Running the application
