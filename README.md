@@ -69,7 +69,7 @@ Node: The connection is not secure as of 07/05/2024
 2. In frontend .env add:
 ```bash
 REACT_APP_API_URL=http://localhost:3001
-SERVER_SECRET = "Your ZegoCloud Secret Key"
+SERVER_SECRET= "Your ZegoCloud Secret Key"
 ```
 To obtain the ZegoCloud secret, register at https://www.zegocloud.com and get credentials. 
 
