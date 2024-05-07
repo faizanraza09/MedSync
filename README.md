@@ -15,6 +15,16 @@ a database for storing patient and doctor information. The medical management
 system is set out to ensure that users stay ahead in the rapidly evolving digital
 healthcare landscape.
 
+## Team Members
+
+| Name              | LinkedIn                                | GitHub                                 |
+|-------------------|-----------------------------------------|----------------------------------------|
+| Faizan Raza       | [LinkedIn](https://www.linkedin.com/in/faizanraza09/) | [GitHub](https://github.com/faizanraza09)       |
+| Khadija Khalid    | [LinkedIn](https://www.linkedin.com/in/khadija-khalid-117873264/) | [GitHub](https://github.com/khadija24268)       |
+| Sohaila Mohammed  | [LinkedIn](www.linkedin.com/in/sohaila-m-9364492b4) | [GitHub](https://github.com/Sohila-Mohammed)       |
+| Ajla Šačić        | [LinkedIn](https://www.linkedin.com/in/ajla-sacic-706749249/) | [GitHub](https://github.com/aylasacic)       |
+
+
 # Running the MedSync Webapp
 
 ## Prerequisites
