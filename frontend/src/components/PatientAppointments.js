@@ -23,6 +23,17 @@ const PatientAppointments = () => {
         fetchAppointments();
     }, [user]);
 
+    const isAppointmentToday = (appointmentDate) => {
+        const today = new Date();
+        const appointment = new Date(appointmentDate);
+        return (
+            today.getFullYear() === appointment.getFullYear() &&
+            today.getMonth() === appointment.getMonth() &&
+            today.getDate() === appointment.getDate()
+        );
+    };
+
+
     return (
         <div className="patient-appointments-page">
             <PatientNavbar />
@@ -41,12 +52,13 @@ const PatientAppointments = () => {
                             {appointment.modeOfConsultation === 'Video' && (
                                 <button
                                     onClick={() => navigate(`/video-call/${appointment.roomID}`)}
-                                    className={`join-video-call-btn ${new Date(appointment.date) > new Date() ? 'disabled' : ''}`}
-                                    disabled={new Date(appointment.date) > new Date()}
+                                    className={`join-video-call-btn ${isAppointmentToday(appointment.date) ? '' : 'disabled'}`}
+                                    disabled={!isAppointmentToday(appointment.date)}
                                 >
                                     Join Video Call
                                 </button>
                             )}
+
 
                         </li>
                     ))}

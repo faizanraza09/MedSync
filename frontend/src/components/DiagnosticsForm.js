@@ -8,6 +8,7 @@ import '../styles/DiagnosticsForm.css';
 import DoctorNavbar from './DoctorNavbar';
 
 
+
 const DiagnosticsForm = () => {
     const [symptoms, setSymptoms] = useState([]);
     const [symptomsOptions, setSymptomsOptions] = useState([]);

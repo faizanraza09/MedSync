@@ -23,26 +23,24 @@ const ScheduleAppointment = () => {
 
 
 
-    // Handle doctor selection
     const handleDoctorSelect = (doctor) => {
         setSelectedDoctor(doctor);
-        setStep(2); // Move to date and time slot selection
+        setStep(2); 
     };
 
-    // Handle date change for slot selection
+    
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        // Reset the selected time slot when the date changes
         setSelectedTimeSlot('');
     };
 
-    // Handle time slot selection
+
     const handleTimeSlotSelect = (timeSlot) => {
         setSelectedTimeSlot(timeSlot);
-        setStep(3); // Move to appointment details form
+        setStep(3); 
     };
 
-    // Submit the appointment details
+
     const handleDetailsSubmit = async (details) => {
         try {
             const response = await axios.post('http://localhost:3001/api/patients/book', {
@@ -55,15 +53,14 @@ const ScheduleAppointment = () => {
             
             
             setAppointmentDetails(response.data.appointment);
-            setStep(4); // Move to confirmation
+            setStep(4); 
         } catch (error) {
             console.error('Failed to book appointment:', error);
         }
     };
 
-    // Reset state and go back to dashboard or step 1
+    
     const handleGoBack = () => {
-        // Reset all state
         setSelectedDoctor(null);
         setSelectedDate(new Date());
         setSelectedTimeSlot('');

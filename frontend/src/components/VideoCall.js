@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
+
 function randomID(len) {
     let result = '';
     var chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP',
@@ -16,17 +17,12 @@ function randomID(len) {
     return result;
 }
 
-function getUrlParams(url = window.location.href) {
-    let urlStr = url.split('?')[1];
-    return new URLSearchParams(urlStr);
-}
 
 function VideoCall() {
     const { roomID } = useParams();
     const appID = 1492563618;
-    const serverSecret = "1044e4b51d869bc19679bfb612680970"; 
     const navigate = useNavigate();
-
+    const serverSecret = "1044e4b51d869bc19679bfb612680970"
     React.useEffect(() => {
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, randomID(5), randomID(5));
 
@@ -40,16 +36,15 @@ function VideoCall() {
                 },
             ],
             scenario: {
-                mode: ZegoUIKitPrebuilt.OneONoneCall, // Modify as needed
+                mode: ZegoUIKitPrebuilt.OneONoneCall, 
             },
             onReturnToHomeScreenClicked: () => {
-                navigate('/'); // Navigate to your dashboard route
+                navigate('/'); 
             }
         });
 
         return () => {
-            // Attempt to destroy the instance or force it to disconnect
-            zp.destroy(); // Check if there's a destroy or similar method
+            zp.destroy(); 
         };
 
 
