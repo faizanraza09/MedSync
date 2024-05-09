@@ -98,7 +98,7 @@ cd MedSync/frontend  # Assumes you're starting from the same initial environment
 REACT_APP_API_URL=http://localhost:3001
 SERVER_SECRET= "Your ZegoCloud Secret Key"
 ```
-For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. 
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs/) in order to obtain the ZegoCloud secret. 
 
 Here are the steps: <ul>
 <li> Visit ZegoCloud's [website](https://www.zegocloud.com) and register for an account. </li>
