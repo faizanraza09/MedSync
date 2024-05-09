@@ -73,8 +73,8 @@ APIMEDIC_AUTH_URL=https://sandbox-authservice.priaid.ch/login
 APIMEDIC_HEALTH_URL=https://sandbox-healthservice.priaid.ch
 LANGUAGE=en-gb
 ```
-To get the APIMedic Username and Passoword, register at https://apimedic.com and get credentials (either sandbox or live)
-Node: The connection is not secure as of 07/05/2024
+To get the APIMedic Username and Password, register at https://apimedic.com and get credentials (either sandbox or live)
+Note: The connection is not secure as of 07/05/2024
 
 3. Install the necessary npm packages:
 ```bash
