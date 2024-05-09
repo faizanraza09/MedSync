@@ -101,14 +101,15 @@ SERVER_SECRET= "Your ZegoCloud Secret Key"
 For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. 
 
 Here are the steps:
-1. Visit ZegoCloud's [website](https://www.zegocloud.com) and register for an account.
-2. Go to your dashboard and click on "Create Project."
-3. Select "Voice & Video Call" as the project type.
-4. Name your project and choose "Start with UIKits" for initialization.
-5. Return to your dashboard and click on your newly created project to view its details.
-6. Inside the project details, find and note the server secret for further configurations. 
+      1. Visit ZegoCloud's [website](https://www.zegocloud.com) and register for an account.
+      2. Go to your dashboard and click on "Create Project."
+      3. Select "Voice & Video Call" as the project type.
+      4. Name your project and choose "Start with UIKits" for initialization.
+      5. Return to your dashboard and click on your newly created project to view its details.
+      6. Inside the project details, find and note the server secret for further configurations. 
 
-7. Install the necessary npm packages:
+
+2. Install the necessary npm packages:
 ```bash
 npm install
 ```
