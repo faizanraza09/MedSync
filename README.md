@@ -30,7 +30,14 @@ healthcare landscape.
 ## Prerequisites
 Before you start, ensure you have MongoDB properly installed and set up. Follow the [documentation](https://www.mongodb.com/docs/manual/installation/) for installation instructions.
 
-For ZegoCloud setup 
+## Setup
+
+### Cloning the Repository
+First, open a terminal in your chosen environment and clone the repository:
+
+```bash
+git clone https://github.com/faizanraza09/MedSync.git
+```
 
 ## .gitignore
 
@@ -39,8 +46,8 @@ Add .gitignore file by running
 ```bash
 touch .gitignore
 ```
-In the file add
 
+In the file add
 ```bash
 node_modules
 .env
@@ -51,10 +58,27 @@ Create .env file in both MedSync/backend and MedSync/frontend
 
 You can do this by running
 ```bash
-touch .env 
+cd MedSync/backend
+
+touch .env
 ```
 
-1. In backend .env add:
+then
+
+```bash
+cd MedSync/frontend
+
+touch .env
+```
+
+## Seting up the backend
+
+1. Navigate to the backend directory:
+```bash
+cd MedSync/backend
+```
+
+2. In backend .env add:
 ```bash
 MONGO_URI=mongodb://localhost:27017/medsync
 USERNAME= # Your APIMedic Username
@@ -66,32 +90,11 @@ LANGUAGE=en-gb
 To get the APIMedic Username and Passoword, register at https://apimedic.com and get credentials (either sandbox or live)
 Node: The connection is not secure as of 07/05/2024
 
-2. In frontend .env add:
-```bash
-REACT_APP_API_URL=http://localhost:3001
-SERVER_SECRET= "Your ZegoCloud Secret Key"
-```
-To obtain the ZegoCloud secret, register at https://www.zegocloud.com and get credentials. 
-
-## Setup
-
-### Cloning the Repository
-First, open a terminal in your chosen environment and clone the repository:
-```bash
-git clone https://github.com/faizanraza09/MedSync.git
-```
-
-## Seting up the backend
-
-1. Navigate to the backend directory:
-```bash
-cd MedSync/backend
-```
-2. Install the necessary npm packages:
+3. Install the necessary npm packages:
 ```bash
 npm install
 ```
-3. Start the backend server:
+4. Start the backend server:
 ```bash
 node server.js
 
@@ -104,12 +107,19 @@ node server.js
 cd MedSync/frontend  # Assumes you're starting from the same initial environment
 ```
 
-2. Install the necessary npm packages:
+2. In frontend .env add:
+```bash
+REACT_APP_API_URL=http://localhost:3001
+SERVER_SECRET= "Your ZegoCloud Secret Key"
+```
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. You need to register too at https://www.zegocloud.com in order to get the credentials. 
+
+3. Install the necessary npm packages:
 ```bash
 npm install
 ```
 
-3. Start the frontend application:
+4. Start the frontend application:
 ```bash
 npm start
 ```
