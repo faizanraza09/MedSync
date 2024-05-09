@@ -112,7 +112,7 @@ cd MedSync/frontend  # Assumes you're starting from the same initial environment
 REACT_APP_API_URL=http://localhost:3001
 SERVER_SECRET= "Your ZegoCloud Secret Key"
 ```
-For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. You need to register too at https://www.zegocloud.com in order to get the credentials. 
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. You need to register too at https://www.zegocloud.com in order to create a "voice & video call project" and get credentials.  
 
 3. Install the necessary npm packages:
 ```bash
