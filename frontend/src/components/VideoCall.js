@@ -22,7 +22,7 @@ function VideoCall() {
     const { roomID } = useParams();
     const appID = 1492563618;
     const navigate = useNavigate();
-    const serverSecret = "1044e4b51d869bc19679bfb612680970"
+    const serverSecret = process.env.REACT_APP_SERVER_SECRET;
     React.useEffect(() => {
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, randomID(5), randomID(5));
 
