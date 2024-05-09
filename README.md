@@ -39,20 +39,6 @@ First, open a terminal in your chosen environment and clone the repository:
 git clone https://github.com/faizanraza09/MedSync.git
 ```
 
-## .gitignore
-
-Add .gitignore file by running
-
-```bash
-touch .gitignore
-```
-
-In the file add
-```bash
-node_modules
-.env
-```
-
 ## .env file
 Create .env file in both MedSync/backend and MedSync/frontend
 
@@ -112,9 +98,17 @@ cd MedSync/frontend  # Assumes you're starting from the same initial environment
 REACT_APP_API_URL=http://localhost:3001
 SERVER_SECRET= "Your ZegoCloud Secret Key"
 ```
-For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. You need to register too at https://www.zegocloud.com in order to create a "voice & video call project" and get credentials.  
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs) in order to obtain the ZegoCloud secret. 
 
-3. Install the necessary npm packages:
+Here are the steps:
+1. Visit ZegoCloud's [website](https://www.zegocloud.com) and register for an account.
+2. Go to your dashboard and click on "Create Project."
+3. Select "Voice & Video Call" as the project type.
+4. Name your project and choose "Start with UIKits" for initialization.
+5. Return to your dashboard and click on your newly created project to view its details.
+6. Inside the project details, find and note the server secret for further configurations. 
+
+7. Install the necessary npm packages:
 ```bash
 npm install
 ```
