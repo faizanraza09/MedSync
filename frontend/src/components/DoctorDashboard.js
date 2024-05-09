@@ -16,7 +16,7 @@ const DoctorDashboard = () => {
     useEffect(() => {
         const fetchDashboardInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/doctors/dashboard/${user._id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/doctors/dashboard/${user._id}`);
                 setDashboardInfo(response.data);
                 setLoading(false);
             } catch (error) {

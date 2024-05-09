@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 import PatientNavbar from './PatientNavbar';
 
@@ -10,12 +9,11 @@ const PatientDashboard = () => {
     const [appointments, setAppointments] = useState([]);
     const [nearestAppointment, setNearestAppointment] = useState(null);
     const [patientName, setPatientName] = useState('');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/patients/${user._id}/appointments`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/patients/${user._id}/appointments`);
                 const sortedAppointments = response.data.sort((a, b) => new Date(a.date) - new Date(b.date));
                 console.log('Appointments:', sortedAppointments);
         
@@ -31,7 +29,7 @@ const PatientDashboard = () => {
 
         const fetchPatientDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/patients/details/${user._id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/patients/details/${user._id}`);
                 setPatientName(`${response.data.firstName} ${response.data.lastName}`);
             } catch (error) {
                 console.error('Error fetching patient details:', error);

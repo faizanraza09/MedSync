@@ -13,7 +13,7 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
 
     const fetchAvailableDoctors = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/patients/available-doctors/${user._id}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/patients/available-doctors/${user._id}`);
             setDoctors(response.data);
             const fetchedSpecialties = [...new Set(response.data.map(doc => doc.specialty))];
             setSpecialties(['All Specialties', ...fetchedSpecialties]);
@@ -30,7 +30,7 @@ const DoctorSelection = ({ onDoctorSelect, user }) => {
 
     const handleReferralCodeSubmit = async () => {
         try {
-            const response = await axios.post(`http://localhost:3001/api/patients/add-doctor/${user._id}`, { referralCode });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/patients/add-doctor/${user._id}`, { referralCode });
             if (response.data.message === "Doctor already added") {
                 alert('Doctor already added');
             } else {

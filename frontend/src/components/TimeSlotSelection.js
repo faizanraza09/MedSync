@@ -15,7 +15,7 @@ const TimeSlotSelection = ({ selectedDoctor, selectedDate, onDateChange, onTimeS
         setError('');
         try {
             const formattedDate = selectedDate.toLocaleDateString('en-CA');
-            const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${formattedDate}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/doctors/${userId}/slots/${formattedDate}`);
             const currentDateTime = new Date();
             let filteredSlots = response.data.times || [];
             filteredSlots = filteredSlots.filter(slot => {

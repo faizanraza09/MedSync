@@ -19,7 +19,7 @@ function Prescriptions() {
     const fetchAppointments = async () => {
       try {
         console.log("Fetching appointments for doctorId:", doctorId);
-        const response = await axios.get(`http://localhost:3001/api/doctors/${doctorId}/patients`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/doctors/${doctorId}/patients`);
         setAppointments(response.data);
         console.log("Fetched Data:", response.data);
         setLoading(false);

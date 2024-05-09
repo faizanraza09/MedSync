@@ -12,7 +12,7 @@ const DoctorAppointments = () => {
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/doctors/${user._id}/appointments`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/doctors/${user._id}/appointments`);
                 setAppointments(response.data);
             } catch (error) {
                 console.error('Error fetching appointments:', error);

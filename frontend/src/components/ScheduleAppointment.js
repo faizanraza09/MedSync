@@ -43,7 +43,7 @@ const ScheduleAppointment = () => {
 
     const handleDetailsSubmit = async (details) => {
         try {
-            const response = await axios.post('http://localhost:3001/api/patients/book', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/patients/book`, {
                 doctorId: selectedDoctor._id,
                 userId: user._id,
                 date: selectedDate.toLocaleDateString('en-CA'),

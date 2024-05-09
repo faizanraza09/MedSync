@@ -66,7 +66,7 @@ function PrescriptionForm() {
 
         // If validation passes, proceed to submit the form
         try {
-            await axios.post(`http://localhost:3001/api/patients/${patientId}/prescribe`, formData);
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/patients/${patientId}/prescribe`, formData);
             setIsSubmitted(true);
         } catch (error) {
             console.error('Failed to add prescription:', error);

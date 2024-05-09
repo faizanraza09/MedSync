@@ -16,7 +16,7 @@ const SlotsManagement = () => {
     const fetchSlotsForDate = useCallback(async (selectedDate) => {
         try {
             const formattedDate = selectedDate.toLocaleDateString('en-CA');
-            const response = await axios.get(`http://localhost:3001/api/doctors/${userId}/slots/${formattedDate}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/doctors/${userId}/slots/${formattedDate}`);
             const currentDateTime = new Date();
             const filteredSlots = response.data.times.filter(time => {
                 const slotDateTime = new Date(`${formattedDate}T${time}:00`);
@@ -44,7 +44,7 @@ const SlotsManagement = () => {
         }
         try {
             const formattedDate = date.toLocaleDateString('en-CA');
-            const response = await axios.post(`http://localhost:3001/api/doctors/${userId}/slots`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/doctors/${userId}/slots`, {
                 date: formattedDate,
                 times: [...slots, newSlotTime]
             });
@@ -60,7 +60,7 @@ const SlotsManagement = () => {
         if (!window.confirm(`Are you sure you want to delete the slot at ${time} on ${slotDate}?`)) return;
 
         try {
-            await axios.delete(`http://localhost:3001/api/doctors/${userId}/slots`, {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/doctors/${userId}/slots`, {
                 data: { date: slotDate, time }
             });
             fetchSlotsForDate(date);

@@ -18,7 +18,7 @@ function PatientPrescriptions() {
         const fetchPrescriptions = async () => {
             if (user && user._id) {
                 try {
-                    const response = await axios.get(`http://localhost:3001/api/patients/${user._id}/prescriptions`);
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/patients/${user._id}/prescriptions`);
                     const sortedPrescriptions = response.data.sort((a, b) => new Date(b.dateIssued) - new Date(a.dateIssued));
                     setPrescriptions(sortedPrescriptions);
                     setLoading(false);

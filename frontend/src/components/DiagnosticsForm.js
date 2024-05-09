@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import '../styles/Dashboard.css';
 import '../styles/DiagnosticsForm.css';
@@ -17,8 +15,6 @@ const DiagnosticsForm = () => {
     const [results, setResults] = useState(null);
     const [error, setError] = useState('');
 
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSymptoms = async () => {
@@ -45,19 +41,6 @@ const DiagnosticsForm = () => {
             // Show an error message or prevent the additional selection
             console.log("Maximum of 5 symptoms allowed.");
         }
-    };
-
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
-
-    const handleGenderChange = (e) => {
-        setGender(e.target.value);
-    };
-
-    const handleYearOfBirthChange = (e) => {
-        setYearOfBirth(e.target.value);
     };
 
     const isGenderSelected = () => {
@@ -93,7 +76,7 @@ const DiagnosticsForm = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:3001/api/doctors/diagnostics`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/doctors/diagnostics`, {
                 symptoms: symptoms.map(s => s.value),
                 gender,
                 yearOfBirth
