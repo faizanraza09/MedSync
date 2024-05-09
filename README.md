@@ -30,20 +30,13 @@ healthcare landscape.
 ## Prerequisites
 Before you start, ensure you have MongoDB properly installed and set up. Follow the [documentation](https://www.mongodb.com/docs/manual/installation/) for installation instructions.
 
-For ZegoCloud setup 
+## Setup
 
-## .gitignore
-
-Add .gitignore file by running
-
-```bash
-touch .gitignore
-```
-In the file add
+### Cloning the Repository
+First, open a terminal in your chosen environment and clone the repository:
 
 ```bash
-node_modules
-.env
+git clone https://github.com/faizanraza09/MedSync.git
 ```
 
 ## .env file
@@ -51,34 +44,17 @@ Create .env file in both MedSync/backend and MedSync/frontend
 
 You can do this by running
 ```bash
-touch .env 
+cd MedSync/backend
+
+touch .env
 ```
 
-1. In backend .env add:
-```bash
-MONGO_URI=mongodb://localhost:27017/medsync
-USERNAME= # Your APIMedic Username
-PASSWORD= # Your APIMedic Password
-APIMEDIC_AUTH_URL=https://sandbox-authservice.priaid.ch/login
-APIMEDIC_HEALTH_URL=https://sandbox-healthservice.priaid.ch
-LANGUAGE=en-gb
-```
-To get the APIMedic Username and Passoword, register at https://apimedic.com and get credentials (either sandbox or live)
-Node: The connection is not secure as of 07/05/2024
+then
 
-2. In frontend .env add:
 ```bash
-REACT_APP_API_URL=http://localhost:3001
-SERVER_SECRET= "Your ZegoCloud Secret Key"
-```
-To obtain the ZegoCloud secret, register at https://www.zegocloud.com and get credentials. 
+cd MedSync/frontend
 
-## Setup
-
-### Cloning the Repository
-First, open a terminal in your chosen environment and clone the repository:
-```bash
-git clone https://github.com/faizanraza09/MedSync.git
+touch .env
 ```
 
 ## Seting up the backend
@@ -87,11 +63,24 @@ git clone https://github.com/faizanraza09/MedSync.git
 ```bash
 cd MedSync/backend
 ```
-2. Install the necessary npm packages:
+
+2. In backend .env add:
+```bash
+MONGO_URI=mongodb://localhost:27017/medsync
+USERNAME= # Your APIMedic Username
+PASSWORD= # Your APIMedic Password
+APIMEDIC_AUTH_URL=https://sandbox-authservice.priaid.ch/login
+APIMEDIC_HEALTH_URL=https://sandbox-healthservice.priaid.ch
+LANGUAGE=en-gb
+```
+To get the APIMedic Username and Password, register at https://apimedic.com and get credentials (either sandbox or live)
+Note: The connection is not secure as of 07/05/2024
+
+3. Install the necessary npm packages:
 ```bash
 npm install
 ```
-3. Start the backend server:
+4. Start the backend server:
 ```bash
 node server.js
 
@@ -104,12 +93,28 @@ node server.js
 cd MedSync/frontend  # Assumes you're starting from the same initial environment
 ```
 
+2. In frontend .env add:
+```bash
+REACT_APP_API_URL=http://localhost:3001
+SERVER_SECRET= "Your ZegoCloud Secret Key"
+```
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs/) in order to obtain the ZegoCloud secret. 
+
+Here are the steps: <ul>
+<li> Visit ZegoCloud's <a href = "https://www.zegocloud.com">website</a> and register for an account. </li>
+<li> Go to your dashboard and click on "Create Project."</li>
+<li> Select "Voice & Video Call" as the project type.</li>
+<li> Name your project and choose "Start with UIKits" for initialization.</li>
+<li> Return to your dashboard and click on your newly created project to view its details.</li>
+<li> Inside the project details, find and note the server secret for further configurations. </li>
+</ul>
+
 2. Install the necessary npm packages:
 ```bash
 npm install
 ```
 
-3. Start the frontend application:
+4. Start the frontend application:
 ```bash
 npm start
 ```
