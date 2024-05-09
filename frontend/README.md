@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# MedSync
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MedSync is a web application primarily aimed towards private general
+practitioners who seek to enhance doctor-patient interactions. Through a doctor-
+patient management system, we provide user-friendly interfaces for both the
+doctors and the patients. MedSync enables patients to smoothly schedule
+appointments by providing real-time availability updates. Patients could also
+receive medical prescriptions, access diagnostic reports, and even opt for remote
+consultations via the video chat option provided through the system; throughout
+their consultations, patients will stay informed with notifications. Furthermore,
+doctors who use our platform could utilize the power of ApiMedic to gain intelligent
+diagnostic support to aid them in making well-informed decisions quickly. The
+project encompasses both front-end and back-end solutions in collaboration with
+a database for storing patient and doctor information. The medical management
+system is set out to ensure that users stay ahead in the rapidly evolving digital
+healthcare landscape.
 
-## Available Scripts
+## Team Members
 
-In the project directory, you can run:
+| Name              | LinkedIn                                | GitHub                                 |
+|-------------------|-----------------------------------------|----------------------------------------|
+| Faizan Raza       | [LinkedIn](https://www.linkedin.com/in/faizanraza09/) | [GitHub](https://github.com/faizanraza09)       |
+| Khadija Khalid    | [LinkedIn](https://www.linkedin.com/in/khadija-khalid-117873264/) | [GitHub](https://github.com/khadija24268)       |
+| Sohaila Mohammed  | [LinkedIn](https://www.linkedin.com/in/sohaila-m-9364492b4/) | [GitHub](https://github.com/Sohila-Mohammed)       |
+| Ajla Šačić        | [LinkedIn](https://www.linkedin.com/in/ajla-sacic-706749249/) | [GitHub](https://github.com/aylasacic)       |
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Running the MedSync Webapp
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
+Before you start, ensure you have MongoDB properly installed and set up. Follow the [documentation](https://www.mongodb.com/docs/manual/installation/) for installation instructions.
 
-### `npm test`
+## Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Cloning the Repository
+First, open a terminal in your chosen environment and clone the repository:
 
-### `npm run build`
+```bash
+git clone https://github.com/faizanraza09/MedSync.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## .env file
+Create .env file in both MedSync/backend and MedSync/frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+You can do this by running
+```bash
+cd MedSync/backend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+touch .env
+```
 
-### `npm run eject`
+then
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+cd MedSync/frontend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+touch .env
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Seting up the backend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Navigate to the backend directory:
+```bash
+cd MedSync/backend
+```
 
-## Learn More
+2. In backend .env add:
+```bash
+MONGO_URI=mongodb://localhost:27017/medsync
+USERNAME= # Your APIMedic Username
+PASSWORD= # Your APIMedic Password
+APIMEDIC_AUTH_URL=https://sandbox-authservice.priaid.ch/login
+APIMEDIC_HEALTH_URL=https://sandbox-healthservice.priaid.ch
+LANGUAGE=en-gb
+```
+To get the APIMedic Username and Password, register at https://apimedic.com and get credentials (either sandbox or live)
+Note: The connection is not secure as of 07/05/2024
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Install the necessary npm packages:
+```bash
+npm install
+```
+4. Start the backend server:
+```bash
+node server.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+## Setting up the frontend
 
-### Code Splitting
+1. Open another terminal and navigate to the frontend directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+cd MedSync/frontend  # Assumes you're starting from the same initial environment
+```
 
-### Analyzing the Bundle Size
+2. In frontend .env add:
+```bash
+REACT_APP_API_URL=http://localhost:3001
+SERVER_SECRET= "Your ZegoCloud Secret Key"
+```
+For ZegoCloud setup go to [ZegoCloud Documentation](https://www.zegocloud.com/docs/) in order to obtain the ZegoCloud secret. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Here are the steps: <ul>
+<li> Visit ZegoCloud's <a href = "https://www.zegocloud.com">website</a> and register for an account. </li>
+<li> Go to your dashboard and click on "Create Project."</li>
+<li> Select "Voice & Video Call" as the project type.</li>
+<li> Name your project and choose "Start with UIKits" for initialization.</li>
+<li> Return to your dashboard and click on your newly created project to view its details.</li>
+<li> Inside the project details, find and note the server secret for further configurations. </li>
+</ul>
 
-### Making a Progressive Web App
+2. Install the necessary npm packages:
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+4. Start the frontend application:
+```bash
+npm start
+```
 
-### Advanced Configuration
+If ZegoCloud SDK is not installed, run
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+npm install @zegocloud/zego-uikit-prebuilt --save
+```
 
-### Deployment
+## Running the application
+With both the backend and frontend set up, your web application should now be running. You can access it through the browser at the address provided by the npm start command in the frontend setup.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
